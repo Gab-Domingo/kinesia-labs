@@ -9,11 +9,7 @@ import { useState } from "react";
 export function Hero() {
   const [hovering, setHovering] = useState(false);
   return (
-<<<<<<< HEAD
-    <div className="flex flex-col h-svh justify-between">
-=======
     <div className="relative flex h-svh items-center justify-center overflow-hidden">
->>>>>>> d006b36 (Fixing hero section)
       <GL hovering={hovering} />
 
       <div className="text-center relative">

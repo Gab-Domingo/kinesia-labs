@@ -56,8 +56,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-<<<<<<< HEAD
-=======
 html {
   scroll-behavior: smooth;
 }
@@ -74,7 +72,15 @@ section[id] {
   background: linear-gradient(90deg, transparent, color-mix(in oklch, var(--foreground) 12%, transparent), transparent);
 }
 
->>>>>>> d006b36 (Fixing hero section)
+/* Light section variant (white background, black text) */
+.section-alt {
+  /* Override theme variables locally for children */
+  --background: #ffffff;
+  --foreground: #000000;
+  --border: #e5e5e5;
+  background: var(--background);
+  color: var(--foreground);
+}
 #webgl {
   top: 0;
   left: 0;
