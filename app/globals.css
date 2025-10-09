@@ -56,6 +56,25 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+<<<<<<< HEAD
+=======
+html {
+  scroll-behavior: smooth;
+}
+
+/* Offset anchored sections below fixed header */
+section[id] {
+  scroll-margin-top: 6rem;
+}
+
+/* Subtle section divider */
+.section-divider {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, color-mix(in oklch, var(--foreground) 12%, transparent), transparent);
+}
+
+>>>>>>> d006b36 (Fixing hero section)
 #webgl {
   top: 0;
   left: 0;
