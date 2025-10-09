@@ -56,6 +56,15 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+/* Offset anchored sections below fixed header */
+section[id] {
+  scroll-margin-top: 6rem;
+}
+
 #webgl {
   top: 0;
   left: 0;

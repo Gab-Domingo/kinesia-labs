@@ -15,30 +15,29 @@ export function Hero() {
       <div className="pb-16 mt-auto text-center relative">
         <Pill className="mb-6">BETA RELEASE</Pill>
         <h1 className="text-5xl sm:text-6xl md:text-7xl font-sentient">
-          Unlock your <br />
-          <i className="font-light">future</i> growth
+          Redefining Human–Machine Interaction
         </h1>
-        <p className="font-mono text-sm sm:text-base text-foreground/60 text-balance mt-8 max-w-[440px] mx-auto">
-          Through perpetual investment strategies that outperform the market
+        <p className="font-mono text-sm sm:text-base text-foreground/60 text-balance mt-8 max-w-[640px] mx-auto">
+          Kinesia Labs pioneers EMG-driven interfaces that let humans control machines through muscle intent.
         </p>
 
-        <Link className="contents max-sm:hidden" href="/#contact">
+        <Link className="contents max-sm:hidden" href="/#demo">
           <Button
             className="mt-14"
             onMouseEnter={() => setHovering(true)}
             onMouseLeave={() => setHovering(false)}
           >
-            [Contact Us]
+            [Watch Product Demo]
           </Button>
         </Link>
-        <Link className="contents sm:hidden" href="/#contact">
+        <Link className="contents sm:hidden" href="/#demo">
           <Button
             size="sm"
             className="mt-14"
             onMouseEnter={() => setHovering(true)}
             onMouseLeave={() => setHovering(false)}
           >
-            [Contact Us]
+            [Watch Product Demo]
           </Button>
         </Link>
       </div>

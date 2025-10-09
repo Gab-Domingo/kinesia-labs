@@ -1,0 +1,101 @@
+# ==========================================
+# .cursorrules — Kinesia Labs Website Redesign
+# ==========================================
+# Purpose:
+# Ensures Cursor + v0 maintain consistent design logic, tone, and layout
+# when expanding the startup hero template into a multi-page site.
+# ==========================================
+
+project:
+  name: "Kinesia Labs Website"
+  description: >
+    A futuristic, research-driven landing site for Kinesia Labs — 
+    a deep tech startup developing an invasive EMG armband that 
+    enables wheelchair and hardware control through muscle intent decoding.
+
+rules:
+  - Always preserve the *core aesthetic and structure* of the original v0 startup hero template.
+  - Any redesign must reflect **Kinesia Labs’ identity**: deep tech, credible, visionary, and research-oriented.
+  - Maintain *semantic HTML* and *clean component hierarchy* in all code output.
+  - Use *modular sections* for scalability (e.g., separate components for hero, features, industries, FAQs, etc.).
+  - Default styling framework should match the template (Tailwind CSS if available).
+  - Typography: tech-inspired sans-serif for headings, humanist sans-serif for body.
+  - Keep the feel *minimal yet advanced*, avoiding clutter or heavy animations.
+
+pages:
+  - Home:
+      purpose: "Introduce the EMG armband and demonstrate wheelchair control capability."
+      include:
+        - Hero section with headline: "Redefining Human–Machine Interaction"
+        - Subheadline: "Kinesia Labs pioneers EMG-driven interfaces that let humans control machines through muscle intent."
+        - CTAs: ["Contact Us"]
+        - Proof of Concept section (wheelchair control demo)
+        - Research insight snippet or animation
+        - Footer with navigation + contact info
+
+  - About:
+      purpose: "Present Kinesia Labs’ mission, research foundation, and team."
+      include:
+        - Mission statement
+        - Research story or founding motivation
+        - Team expertise: AI, biomedical engineering, robotics
+
+  - Industries:
+      purpose: "Show cross-sector potential applications of EMG-AI integration."
+      include:
+        - Healthcare & Accessibility
+        - Defense & Military
+        - Industrial Robotics
+        - Exoskeleton & Hardware Control
+
+  - Research:
+      purpose: "Explain signal filtering and intent decoding innovations."
+      include:
+        - Simplified diagram placeholder for EMG signal-to-action
+        - Notes on latency, precision, and ethical AI
+        - Optional data visualization or animation placeholder
+
+  - FAQs:
+      purpose: "Answer common questions and clarify tech basics."
+      include:
+        - What is EMG?
+        - Is it invasive or non-invasive?
+        - How accurate is control?
+        - Who can use the product?
+        - How to connect to hardware?
+
+  - Contact:
+      purpose: "Generate leads and collaborations."
+      include:
+        - Lead form
+        - Email and LinkedIn links
+        - Footer legal note
+
+behavior:
+  - Do not remove or drastically alter existing UI structure unless requested.
+  - Always ensure consistent navigation and routing across all pages.
+  - Keep text concise, technically clear, and inspiring.
+  - Prefer modern interaction patterns (smooth scroll, hover effects, light motion).
+  - All assets, animations, or videos must be modular and optional for later integration.
+  - Optimize for accessibility, SEO, and responsive design by default.
+  - Maintain strict component reusability — avoid redundant styling or inline CSS.
+
+ai_guidance:
+  - When generating new sections or pages:
+      * Match typography scale and spacing with the base template.
+      * Respect existing color palette logic.
+      * Prioritize clarity over decoration.
+  - When updating copy:
+      * Keep tone confident, research-driven, and visionary.
+      * Avoid generic marketing buzzwords.
+      * Communicate innovation through clarity and focus.
+
+outputs:
+  - Generate complete, working components (React/Tailwind preferred).
+  - Include placeholder images or diagram references where needed.
+  - Maintain readability and logical file naming conventions.
+  - Ensure all generated code runs standalone within the existing template structure.
+
+# ==========================================
+# END OF FILE
+# ==========================================
