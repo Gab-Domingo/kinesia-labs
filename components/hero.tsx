@@ -9,7 +9,7 @@ import { useState } from "react";
 export function Hero() {
   const [hovering, setHovering] = useState(false);
   return (
-    <div className="flex flex-col h-svh justify-between">
+    <div className="relative flex flex-col h-svh justify-between overflow-hidden">
       <GL hovering={hovering} />
 
       <div className="pb-16 mt-auto text-center relative">

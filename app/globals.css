@@ -68,9 +68,10 @@ section[id] {
 #webgl {
   top: 0;
   left: 0;
-  position: fixed;
-  height: 100svh;
+  position: absolute;
+  height: 100%;
   width: 100%;
+  pointer-events: none;
 }
 
 #webgl canvas {
