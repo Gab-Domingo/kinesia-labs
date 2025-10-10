@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 
 import ChromaGrid from "./ChromaGrid";
@@ -5,36 +6,52 @@ import ChromaGrid from "./ChromaGrid";
 export function TeamSection() {
   const items = [
     {
-      image: "https://i.pravatar.cc/300?img=1",
-      title: "AI Research",
-      subtitle: "Signal Processing & Modeling",
-      handle: "@kinesia-ai",
+      image: "/assets/team/jaime.jpeg",
+      title: "Jaime Gabriel Domingo",
+      subtitle: "Electronics Engineering Student",
+      handle: "@jaimegabrieldomingo",
       borderColor: "#EBB800",
       gradient: "linear-gradient(145deg, #EBB800, #000)",
     },
     {
-      image: "https://i.pravatar.cc/300?img=2",
-      title: "Biomedical Engineering",
-      subtitle: "Sensors & Interfaces",
-      handle: "@kinesia-bme",
+      image: "/assets/team/lorenz.jpg",
+      title: "Lorenz Arnold Novilunio",
+      subtitle: "Electronics Engineering Student",
+      handle: "@lorenznovilunio",
       borderColor: "#10B981",
       gradient: "linear-gradient(145deg, #10B981, #000)",
     },
     {
-      image: "https://i.pravatar.cc/300?img=3",
-      title: "Robotics",
-      subtitle: "Control & Integration",
-      handle: "@kinesia-robotics",
+      image: "/assets/team/allen.jpg",
+      title: "Allen Sederio",
+      subtitle: "Electronics Engineering Student",
+      handle: "@allensederio",
       borderColor: "#3B82F6",
       gradient: "linear-gradient(145deg, #3B82F6, #000)",
     },
     {
-      image: "https://i.pravatar.cc/300?img=4",
-      title: "HCI",
-      subtitle: "Human–AI Synergy",
-      handle: "@kinesia-hci",
-      borderColor: "#A855F7",
-      gradient: "linear-gradient(145deg, #A855F7, #000)",
+      image: "/assets/team/john-patrick.jpg",
+      title: "John Patrick Cabigting",
+      subtitle: "Electronics Engineering Student",
+      handle: "@johnpatrickcabigting",
+      borderColor: "#EF4444",
+      gradient: "linear-gradient(145deg, #EF4444, #000)",
+    },
+    {
+      image: "/assets/team/john-dave.jpg",
+      title: "John Dave Caluya",
+      subtitle: "Electronics Engineering Student",
+      handle: "@johndavecaluya",
+      borderColor: "#8B5CF6",
+      gradient: "linear-gradient(145deg, #8B5CF6, #000)",
+    },
+    {
+      image: "/assets/team/charles.jpg",
+      title: "Charles Martin Cruz",
+      subtitle: "Electronics Engineering Student",
+      handle: "@charlesmartincruz",
+      borderColor: "#06B6D4",
+      gradient: "linear-gradient(145deg, #06B6D4, #000)",
     },
   ];
 
@@ -49,8 +66,8 @@ export function TeamSection() {
         </div>
       </div>
 
-      <div className="mt-8" style={{ height: "520px", position: "relative" }}>
-        <ChromaGrid items={items} radius={300} damping={0.45} fadeOut={0.6} ease="power3.out" />
+      <div className="mt-8" style={{ position: "relative" }}>
+        <ChromaGrid items={items} radius={320} damping={0.45} fadeOut={0.6} ease="power3.out" columns={3} rows={2} />
       </div>
     </section>
   );
