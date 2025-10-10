@@ -52,7 +52,7 @@ export function SignalViz() {
   }, []);
 
   return (
-    <div className="aspect-[16/10] w-full rounded-lg border grid place-items-center text-black/60 overflow-hidden">
+    <div className="aspect-[16/10] w-full rounded-lg border grid place-items-center bg-black text-white/70 overflow-hidden">
       <div ref={containerRef} className="w-full h-full" />
     </div>
   );
