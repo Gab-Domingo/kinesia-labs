@@ -1,7 +1,85 @@
 // @ts-nocheck
 "use client";
 
-export function IntentDecodingDiagram({ compact = false }: { compact?: boolean }) {
+// orientation: "horizontal" (default) keeps the animated pipeline
+// orientation: "vertical" shows a tall Lottie visual with a concise legend
+export function IntentDecodingDiagram({
+  compact = false,
+  orientation = "horizontal",
+  lottieSrc,
+}: {
+  compact?: boolean;
+  orientation?: "horizontal" | "vertical";
+  lottieSrc?: string;
+}) {
+  // Lazy-load the official Lottie web component if needed
+  // We avoid adding a package and use the lightweight web component via CDN
+  if (typeof window !== "undefined") {
+    // @ts-ignore
+    if (!customElements.get("lottie-player")) {
+      const existing = document.querySelector('script[data-lib="lottie-player"]');
+      if (!existing) {
+        const script = document.createElement("script");
+        script.src = "https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js";
+        script.async = true;
+        script.setAttribute("data-lib", "lottie-player");
+        document.head.appendChild(script);
+      }
+    }
+  }
+
+  if (orientation === "vertical") {
+    return (
+      <div className="rounded-xl border border-white/10 overflow-hidden bg-white/5">
+        <div className="relative h-[420px] md:h-[520px]">
+          {lottieSrc ? (
+            // @ts-ignore - custom element provided by web component script
+            <lottie-player
+              autoplay
+              loop
+              mode="normal"
+              src={lottieSrc}
+              style={{ width: "100%", height: "100%" }}
+              speed="1"
+              background="transparent"
+            />
+          ) : null}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/25" />
+        </div>
+
+        <div className="grid grid-cols-1 gap-3 p-5 md:p-6 border-t border-white/10">
+          <div className="flex items-start gap-3">
+            <div className="mt-1 h-2.5 w-2.5 rounded-full bg-[rgba(235,184,0,0.9)] shadow-[0_0_20px_rgba(235,184,0,0.35)]" />
+            <div>
+              <div className="font-sentient">Signal Acquisition</div>
+              <div className="font-mono text-sm text-foreground/70">High‑fidelity EMG capture from target muscle groups.</div>
+            </div>
+          </div>
+          <div className="flex items-start gap-3">
+            <div className="mt-1 h-2.5 w-2.5 rounded-full bg-[rgba(235,184,0,0.7)]" />
+            <div>
+              <div className="font-sentient">Filtering & Denoising</div>
+              <div className="font-mono text-sm text-foreground/70">Adaptive suppression to maximize signal‑to‑noise.</div>
+            </div>
+          </div>
+          <div className="flex items-start gap-3">
+            <div className="mt-1 h-2.5 w-2.5 rounded-full bg-[rgba(235,184,0,0.7)]" />
+            <div>
+              <div className="font-sentient">AI Intent Decoding</div>
+              <div className="font-mono text-sm text-foreground/70">Real‑time inference tuned for assistive control loops.</div>
+            </div>
+          </div>
+          <div className="flex items-start gap-3">
+            <div className="mt-1 h-2.5 w-2.5 rounded-full bg-[rgba(235,184,0,0.7)]" />
+            <div>
+              <div className="font-sentient">Low‑Latency Control</div>
+              <div className="font-mono text-sm text-foreground/70">Smooth wheelchair/robot actuation with confidence outputs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="rounded-xl border border-white/10 overflow-hidden bg-white/5">
       <svg viewBox={compact ? "0 0 800 260" : "0 0 800 450"} className="w-full h-auto" role="img" aria-label="EMG signal to intent decoding pipeline with animated flow">
