@@ -6,7 +6,7 @@ import ChromaGrid from "./ChromaGrid";
 export function TeamSection() {
   const items = [
     {
-      image: "/assets/team/jaime.jpeg",
+      image: "/assets/team/gab.jpeg",
       title: "Jaime Gabriel Domingo",
       subtitle: "Electronics Engineering Student",
       handle: "@jaimegabrieldomingo",
@@ -38,7 +38,7 @@ export function TeamSection() {
       gradient: "linear-gradient(145deg, #EF4444, #000)",
     },
     {
-      image: "/assets/team/john-dave.jpg",
+      image: "/assets/team/dave.jpg",
       title: "John Dave Caluya",
       subtitle: "Electronics Engineering Student",
       handle: "@johndavecaluya",

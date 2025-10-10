@@ -38,9 +38,12 @@ export function AboutHero() {
               environmentPreset="studio"
               defaultRotationX={0}
               defaultRotationY={0}
-              defaultZoom={2.6}
+              defaultZoom={1.2}
+              minZoomDistance={0.8}
+              maxZoomDistance={4.0}
               autoFrame
               enableManualZoom
+              fadeIn
             />
           </div>
           <div className="md:block hidden absolute -inset-6 -z-10 bg-[conic-gradient(from_180deg_at_50%_50%,rgba(235,184,0,0.10),transparent_60%)] blur-2xl" />
