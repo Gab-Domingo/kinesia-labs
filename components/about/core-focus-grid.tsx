@@ -31,12 +31,12 @@ export function CoreFocusGrid() {
         {items.map((item, idx) => (
           <Reveal key={item.title} delayMs={idx * 80}>
             <div className="h-full">
-              <div className="rounded-xl border border-white/10 p-6 md:p-8 bg-white/5 h-full flex flex-col">
-                <div className="rounded-lg overflow-hidden mb-4 bg-white/10 p-4 flex items-center justify-center h-32">
-                  <img 
-                    src={item.image} 
+              <div className="group rounded-xl border border-white/10 hover:border-white/20 transition-colors p-6 md:p-8 bg-white/5 h-full flex flex-col">
+                <div className="relative mb-4 rounded-lg overflow-hidden bg-white/10 aspect-[4/3]">
+                  <img
+                    src={item.image}
                     alt={item.title}
-                    className="max-h-full max-w-full object-contain"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
                 <h3 className="font-sentient text-xl">{item.title}</h3>

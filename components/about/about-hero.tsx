@@ -23,9 +23,6 @@ export function AboutHero() {
           {/* subheading removed per request */}
           <Reveal delayMs={90}>
             <div className="mt-10 flex flex-wrap gap-4">
-              <Link href="/research" className="contents">
-                <Button>Explore Our Research</Button>
-              </Link>
               <Link href="/contact" className="contents">
                 <Button className="border-foreground/30 text-foreground/80 bg-transparent hover:text-foreground hover:border-foreground/60">
                   Collaborate with Us
