@@ -4,63 +4,139 @@
 export function IntentDecodingDiagram({ compact = false }: { compact?: boolean }) {
   return (
     <div className="rounded-xl border border-white/10 overflow-hidden bg-white/5">
-      <svg viewBox={compact ? "0 0 800 260" : "0 0 800 450"} className="w-full h-auto" role="img" aria-label="EMG to intent decoding schematic">
+      <svg viewBox={compact ? "0 0 800 260" : "0 0 800 450"} className="w-full h-auto" role="img" aria-label="EMG signal to intent decoding pipeline with animated flow">
         <defs>
-          <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#EBB800" stopOpacity="0.7" />
-            <stop offset="100%" stopColor="#EBB800" stopOpacity="0" />
+          <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#EBB800" stopOpacity="0.9" />
+            <stop offset="100%" stopColor="#EBB800" stopOpacity="0.2" />
           </linearGradient>
-          <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="8" result="blur" />
+          <linearGradient id="edge" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#EBB800" />
+            <stop offset="100%" stopColor="#6b5b00" />
+          </linearGradient>
+          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="6" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
+          <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#6b6b6b" />
+          </marker>
+          <style>
+            {`
+            .wave {
+              stroke-dasharray: 6 8;
+              animation: flow 5s linear infinite;
+            }
+            .edge {
+              stroke-dasharray: 10 8;
+              animation: flow 2.5s linear infinite;
+            }
+            .node {
+              animation: pulse 2.2s ease-in-out infinite;
+            }
+            .bar {
+              transform-box: fill-box;
+              transform-origin: 50% 100%;
+              animation: grow 3s ease-in-out infinite;
+            }
+            .bar.delay-1 { animation-delay: .2s; }
+            .bar.delay-2 { animation-delay: .4s; }
+            .scan {
+              animation: sweep 3.6s ease-in-out infinite;
+            }
+            @keyframes flow {
+              to { stroke-dashoffset: -400; }
+            }
+            @keyframes pulse {
+              0%,100% { opacity: .6; }
+              50% { opacity: 1; }
+            }
+            @keyframes grow {
+              0%,100% { transform: scaleY(.35); }
+              50% { transform: scaleY(1); }
+            }
+            @keyframes sweep {
+              0% { opacity: .0; transform: translateX(-140px); }
+              15% { opacity: .6; }
+              85% { opacity: .6; }
+              100% { opacity: 0; transform: translateX(140px); }
+            }
+          `}
+          </style>
         </defs>
 
         <rect x="0" y="0" width="800" height={compact ? 260 : 450} fill="#0B0B0B" />
 
+        {/* Acquisition */}
         <g>
-          <rect x="40" y="60" width="180" height="80" rx="12" fill="#121212" stroke="#2a2a2a" />
-          <text x="130" y="108" textAnchor="middle" fill="#fff" fontSize="14" fontFamily="monospace">Signal Acquisition</text>
-          <path d="M 60 120 Q 90 60, 120 120 T 180 120" stroke="#EBB800" strokeWidth="2" fill="none" />
+          <rect x="40" y="48" width="200" height="100" rx="12" fill="#121212" stroke="#2a2a2a" />
+          <text x="140" y="86" textAnchor="middle" fill="#fff" fontSize="14" fontFamily="monospace">Signal Acquisition</text>
+          {/* EMG waveform */}
+          <path
+            className="wave"
+            d="M 50 120 C 70 90, 90 150, 110 120 C 130 90, 150 150, 170 120 C 190 90, 210 150, 230 120"
+            stroke="url(#gold)" strokeWidth="2" fill="none" filter="url(#glow)"
+          />
         </g>
 
+        {/* Edge to Filtering */}
+        <line x1="240" y1="98" x2="310" y2="98" stroke="#4a4a4a" className="edge" markerEnd="url(#arrow)" />
+
+        {/* Filtering */}
         <g>
-          <rect x="310" y="60" width="180" height="80" rx="12" fill="#121212" stroke="#2a2a2a" />
-          <text x="400" y="108" textAnchor="middle" fill="#fff" fontSize="14" fontFamily="monospace">Filtering & Denoising</text>
-          <rect x="330" y="76" width="140" height="10" fill="url(#g1)" filter="url(#softGlow)" />
-          <rect x="330" y="94" width="140" height="10" fill="url(#g1)" />
-          <rect x="330" y="112" width="140" height="10" fill="url(#g1)" />
+          <rect x="310" y="48" width="200" height="100" rx="12" fill="#121212" stroke="#2a2a2a" />
+          <text x="410" y="86" textAnchor="middle" fill="#fff" fontSize="14" fontFamily="monospace">Filtering & Denoising</text>
+          {/* band-pass lanes */}
+          <rect x="330" y="70" width="160" height="8" fill="url(#gold)" opacity="0.55" />
+          <rect x="330" y="88" width="160" height="8" fill="url(#gold)" opacity="0.35" />
+          <rect x="330" y="106" width="160" height="8" fill="url(#gold)" opacity="0.2" />
+          {/* scanning window */}
+          <rect x="330" y="64" width="28" height="60" rx="6" className="scan" fill="#EBB800" opacity="0.14" />
         </g>
 
+        {/* Edge to AI */}
+        <line x1="510" y1="98" x2="580" y2="98" stroke="#4a4a4a" className="edge" markerEnd="url(#arrow)" />
+
+        {/* AI Inference */}
         <g>
-          <rect x="580" y="60" width="180" height="80" rx="12" fill="#121212" stroke="#2a2a2a" />
-          <text x="670" y="108" textAnchor="middle" fill="#fff" fontSize="14" fontFamily="monospace">AI Intent Decoding</text>
-          <circle cx="635" cy="100" r="12" fill="#1b1b1b" stroke="#2a2a2a" />
-          <circle cx="670" cy="100" r="12" fill="#1b1b1b" stroke="#2a2a2a" />
-          <circle cx="705" cy="100" r="12" fill="#1b1b1b" stroke="#2a2a2a" />
+          <rect x="580" y="48" width="200" height="100" rx="12" fill="#121212" stroke="#2a2a2a" />
+          <text x="680" y="86" textAnchor="middle" fill="#fff" fontSize="14" fontFamily="monospace">AI Intent Decoding</text>
+          {/* small network */}
+          <g>
+            <circle className="node" cx="615" cy="104" r="8" fill="#1b1b1b" stroke="#2a2a2a" />
+            <circle className="node" cx="650" cy="104" r="8" fill="#1b1b1b" stroke="#2a2a2a" />
+            <circle className="node" cx="685" cy="104" r="8" fill="#1b1b1b" stroke="#2a2a2a" />
+            <circle className="node" cx="720" cy="104" r="8" fill="#1b1b1b" stroke="#2a2a2a" />
+            <line x1="623" y1="104" x2="642" y2="104" stroke="url(#edge)" className="edge" />
+            <line x1="658" y1="104" x2="677" y2="104" stroke="url(#edge)" className="edge" />
+            <line x1="693" y1="104" x2="712" y2="104" stroke="url(#edge)" className="edge" />
+          </g>
         </g>
 
-        <g stroke="#2a2a2a">
-          <line x1="220" y1="100" x2="310" y2="100" stroke="#3a3a3a" />
-          <line x1="490" y1="100" x2="580" y2="100" stroke="#3a3a3a" />
-        </g>
-
-        {compact ? null : (
+        {/* To outputs */}
+        {!compact && (
           <>
+            <line x1="680" y1="148" x2="680" y2="210" stroke="#4a4a4a" className="edge" markerEnd="url(#arrow)" />
+
+            {/* Output panel */}
             <g>
-              <rect x="310" y="210" width="180" height="80" rx="12" fill="#121212" stroke="#2a2a2a" />
-              <text x="400" y="258" textAnchor="middle" fill="#fff" fontSize="14" fontFamily="monospace">Low-Latency Control</text>
-            </g>
-            <g>
-              <rect x="580" y="210" width="180" height="80" rx="12" fill="#121212" stroke="#2a2a2a" />
-              <text x="670" y="258" textAnchor="middle" fill="#fff" fontSize="14" fontFamily="monospace">Wheelchair/Robot</text>
-            </g>
-            <g stroke="#3a3a2a">
-              <line x1="670" y1="140" x2="670" y2="210" />
-              <line x1="490" y1="250" x2="580" y2="250" />
+              <rect x="520" y="210" width="320" height="160" rx="14" fill="#121212" stroke="#2a2a2a" />
+              <text x="680" y="236" textAnchor="middle" fill="#fff" fontSize="14" fontFamily="monospace">Control Confidence</text>
+
+              {/* Bars */}
+              <g>
+                <rect x="580" y="320" width="32" height="40" className="bar" fill="url(#gold)" />
+                <text x="596" y="336" textAnchor="middle" fill="#bbb" fontSize="11" fontFamily="monospace">Left</text>
+
+                <rect x="664" y="300" width="32" height="60" className="bar delay-1" fill="url(#gold)" />
+                <text x="680" y="336" textAnchor="middle" fill="#bbb" fontSize="11" fontFamily="monospace">Forward</text>
+
+                <rect x="748" y="310" width="32" height="50" className="bar delay-2" fill="url(#gold)" />
+                <text x="764" y="336" textAnchor="middle" fill="#bbb" fontSize="11" fontFamily="monospace">Right</text>
+              </g>
             </g>
           </>
         )}

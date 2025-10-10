@@ -15,7 +15,14 @@ export function ResearchPhilosophy() {
       </div>
 
       <div className="grid gap-10 md:gap-12 md:grid-cols-2 items-start">
-        {/* Left: Copy and principles */}
+        {/* Left: Diagram */}
+        <Reveal>
+          <div className="md:sticky md:top-28">
+            <IntentDecodingDiagram compact />
+          </div>
+        </Reveal>
+
+        {/* Right: Copy and principles */}
         <div className="max-w-3xl">
           <Reveal>
             <h2 className="text-3xl md:text-4xl font-sentient">Research Philosophy</h2>
@@ -55,13 +62,6 @@ export function ResearchPhilosophy() {
             </Reveal>
           </Link>
         </div>
-
-        {/* Right: Diagram */}
-        <Reveal>
-          <div className="md:sticky md:top-28">
-            <IntentDecodingDiagram compact />
-          </div>
-        </Reveal>
       </div>
     </section>
   );
