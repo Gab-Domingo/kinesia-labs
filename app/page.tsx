@@ -2,6 +2,7 @@
 
 import { Hero } from "@/components/hero";
 import { Leva } from "leva";
+import { SignalIntelligenceSection } from "@/components/signal-intelligence-section";
 
 function SectionHeading({ id, title, subtitle }: { id: string; title: string; subtitle?: string }) {
   return (
@@ -29,26 +30,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="container py-20 md:py-32">
-        <div className="rounded-xl bg-white text-black p-8 md:p-10">
-          <h2 className="text-3xl md:text-4xl font-sentient">Signal Intelligence</h2>
-          <p className="mt-4 max-w-2xl font-mono text-black/70">Our pipeline performs denoising, artifact removal, and intent decoding in real time for precise, stable control.</p>
-          <div className="mt-8 grid gap-6 md:grid-cols-3">
-            <article className="border p-6 rounded-xl transition-transform hover:-translate-y-1">
-              <h3 className="font-sentient text-lg">Filtering & Denoising</h3>
-              <p className="mt-2 text-black/70">EMG preprocessing to improve SNR.</p>
-            </article>
-            <article className="border p-6 rounded-xl transition-transform hover:-translate-y-1">
-              <h3 className="font-sentient text-lg">Intent Decoding</h3>
-              <p className="mt-2 text-black/70">Modeling muscle activation patterns to infer commands.</p>
-            </article>
-            <article className="border p-6 rounded-xl transition-transform hover:-translate-y-1">
-              <h3 className="font-sentient text-lg">Real-time Control</h3>
-              <p className="mt-2 text-black/70">Low-latency loop for smooth actuation.</p>
-            </article>
-          </div>
-        </div>
-      </section>
+      <SignalIntelligenceSection />
 
       <SectionHeading id="timeline" title="Development Timeline" />
       <section className="container -mt-12">
