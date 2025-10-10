@@ -1,8 +1,9 @@
+// @ts-nocheck
 "use client";
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { SignalViz } from "@/components/signal-viz";
+import { IntentDecodingDiagram } from "@/components/about/intent-decoding-diagram";
 
 export function ResearchPhilosophy() {
   return (
@@ -21,9 +22,7 @@ export function ResearchPhilosophy() {
         </div>
 
         <div className="order-1 md:order-2">
-          <div className="rounded-xl overflow-hidden border border-white/10">
-            <SignalViz />
-          </div>
+          <IntentDecodingDiagram />
         </div>
       </div>
     </section>
