@@ -72,17 +72,19 @@
 .chroma-img-wrapper {
   position: relative;
   z-index: 1;
-  flex: 1;
   padding: 10px;
   box-sizing: border-box;
   background: transparent;
   transition: background 0.3s ease;
+  /* Enforce uniform square image area */
+  aspect-ratio: 1 / 1;
 }
 
 .chroma-img-wrapper img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   border-radius: 10px;
   display: block;
 }

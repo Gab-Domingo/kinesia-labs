@@ -1,4 +1,5 @@
 // @ts-nocheck
+import Reveal from "@/components/ux/Reveal";
 export function CoreFocusGrid() {
   const items = [
     {
@@ -23,20 +24,26 @@ export function CoreFocusGrid() {
 
   return (
     <section className="container py-16 md:py-24">
-      <h2 className="text-3xl md:text-4xl font-sentient">Core Focus Areas</h2>
+      <Reveal>
+        <h2 className="text-3xl md:text-4xl font-sentient">Core Focus Areas</h2>
+      </Reveal>
       <div className="mt-8 grid gap-6 md:gap-8 md:grid-cols-3">
-        {items.map((item) => (
-          <div key={item.title} className="rounded-xl border border-white/10 p-6 md:p-8 bg-white/5 h-full flex flex-col">
-            <div className="rounded-lg overflow-hidden mb-4 bg-white/10 p-4 flex items-center justify-center h-32">
-              <img 
-                src={item.image} 
-                alt={item.title}
-                className="max-h-full max-w-full object-contain"
-              />
+        {items.map((item, idx) => (
+          <Reveal key={item.title} delayMs={idx * 80}>
+            <div className="h-full">
+              <div className="rounded-xl border border-white/10 p-6 md:p-8 bg-white/5 h-full flex flex-col">
+                <div className="rounded-lg overflow-hidden mb-4 bg-white/10 p-4 flex items-center justify-center h-32">
+                  <img 
+                    src={item.image} 
+                    alt={item.title}
+                    className="max-h-full max-w-full object-contain"
+                  />
+                </div>
+                <h3 className="font-sentient text-xl">{item.title}</h3>
+                <p className="mt-3 text-foreground/70 flex-grow">{item.body}</p>
+              </div>
             </div>
-            <h3 className="font-sentient text-xl">{item.title}</h3>
-            <p className="mt-3 text-foreground/70 flex-grow">{item.body}</p>
-          </div>
+          </Reveal>
         ))}
       </div>
     </section>
