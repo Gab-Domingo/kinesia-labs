@@ -17,7 +17,7 @@ export function AboutHero() {
         <div>
           <Reveal>
             <h1 className="text-4xl md:text-6xl font-sentient tracking-tight">
-              Redefining Human–AI Interaction Through Muscle Intent Decoding
+              EMG armband that turns muscle intent into precise control
             </h1>
           </Reveal>
           {/* subheading removed per request */}

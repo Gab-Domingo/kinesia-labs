@@ -1,20 +1,24 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/ux/Reveal";
+import Threads from "@/components/visuals/Threads";
 
 export function HeroSection() {
   return (
     <section aria-labelledby="industries-hero-heading" className="relative">
+      <div className="absolute inset-0 -z-10 opacity-60">
+        <Threads amplitude={0.8} distance={0.2} enableMouseInteraction={false} />
+      </div>
       <div className="container py-24 md:py-36">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal>
             <h1 id="industries-hero-heading" className="text-4xl md:text-5xl font-sentient tracking-tight">
-              Powering the Future of Human–Machine Integration
+              Seamless EMG Integration for Real-World Systems
             </h1>
           </Reveal>
           <Reveal delayMs={100}>
             <p className="mt-6 text-foreground/70 text-base md:text-lg">
-              Our EMG armband technology bridges human intent and machine control — enabling high-performance integration across healthcare, defense, robotics, and exoskeleton systems.
+              Low-latency, integration-ready control for clinical devices, exosuits, industrial robots, and more.
             </p>
           </Reveal>
           <Reveal delayMs={200}>
