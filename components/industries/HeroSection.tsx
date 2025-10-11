@@ -7,7 +7,7 @@ export function HeroSection() {
   return (
     <section aria-labelledby="industries-hero-heading" className="relative">
       <div className="absolute inset-0 -z-10 opacity-60">
-        <Threads amplitude={0.8} distance={0.2} enableMouseInteraction={false} />
+        <Threads amplitude={1.9} distance={0.2} enableMouseInteraction={true} />
       </div>
       <div className="container py-24 md:py-36">
         <div className="mx-auto max-w-3xl text-center">
