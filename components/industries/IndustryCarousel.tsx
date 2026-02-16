@@ -83,7 +83,7 @@ export function IndustryCarousel({ slides }: IndustryCarouselProps) {
           {slides.map((slide, index) => (
             <li
               key={slide.title}
-              className="relative min-w-0 flex-[0_0_100%] md:flex-[0_0_calc(50%-0.5rem)] lg:flex-[0_0_calc(33.333%-0.667rem)]"
+              className="relative min-w-0 flex-[0_0_100%]"
               aria-roledescription="slide"
               aria-label={`${slide.title}, slide ${index + 1} of ${slides.length}`}
             >
@@ -121,30 +121,25 @@ export function IndustryCarousel({ slides }: IndustryCarouselProps) {
 
 function IndustrySlide({ data }: { data: IndustrySlideData }) {
   return (
-    <article className="group relative aspect-[4/3] md:aspect-[5/3] w-full overflow-hidden rounded-xl border border-border">
-      <div className="absolute inset-0">
+    <article className="group flex w-full flex-col overflow-hidden rounded-xl border border-border bg-background/40">
+      <div className="relative w-full overflow-hidden aspect-[16/9] md:aspect-[2/1]">
         <img
           src={data.imageUrl}
           alt={data.imageAlt}
           className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]"
           loading="lazy"
         />
-        {/* Subtle overlay so text stays readable; image remains the focus */}
-        <div
-          className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent"
-          aria-hidden
-        />
       </div>
-      <div className="absolute inset-0 flex flex-col justify-end p-5 md:p-6 text-left">
-        <h3 className="text-lg md:text-xl font-sentient text-foreground transition-colors duration-300 group-hover:text-[#0C7AFF]">
+      <div className="flex flex-col p-6 md:p-8 text-left">
+        <h3 className="text-xl md:text-2xl font-sentient text-foreground transition-colors duration-300 group-hover:text-[#0C7AFF]">
           {data.title}
         </h3>
-        <p className="mt-1.5 text-foreground/95 text-sm max-w-lg">
+        <p className="mt-2 text-foreground/80 text-sm md:text-base">
           {data.summary}
         </p>
-        <ul className="mt-3 grid gap-1 text-sm list-disc pl-5 marker:text-[#0C7AFF]/80">
+        <ul className="mt-4 grid gap-2 text-sm list-disc pl-5 marker:text-[#0C7AFF]/80">
           {data.capabilities.slice(0, 3).map((cap) => (
-            <li key={cap} className="text-foreground/90">
+            <li key={cap} className="text-foreground/80">
               {cap}
             </li>
           ))}

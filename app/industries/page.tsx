@@ -63,7 +63,7 @@ export default function IndustriesPage() {
             Our EMG armband adapts to diverse environments to enable intuitive, precise control across sectors.
           </p>
 
-          <IndustryCarousel slides={industrySlides} />
+          <IndustryCarousel slides={industrySlides.slice(0, 3)} />
         </div>
       </section>
 
