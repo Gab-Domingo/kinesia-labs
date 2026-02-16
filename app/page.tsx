@@ -60,7 +60,7 @@ export default function Home() {
             <Reveal>
               <a href="/about" className="border p-6 rounded-xl block transition-transform hover:-translate-y-1">
                 <h3 className="font-sentient text-lg">About Us</h3>
-                <p className="mt-2 text-black/70">Mission, story, and team expertise.</p>
+                <p className="mt-2 text-black/70">Mission, story, team expertise, and FAQs.</p>
               </a>
             </Reveal>
             <Reveal delayMs={60}>
@@ -73,18 +73,6 @@ export default function Home() {
               <a href="/research" className="border p-6 rounded-xl block transition-transform hover:-translate-y-1">
                 <h3 className="font-sentient text-lg">Research</h3>
                 <p className="mt-2 text-black/70">EMG to action, latency, and ethics.</p>
-              </a>
-            </Reveal>
-            <Reveal delayMs={180}>
-              <a href="/faqs" className="border p-6 rounded-xl block transition-transform hover:-translate-y-1">
-                <h3 className="font-sentient text-lg">FAQs</h3>
-                <p className="mt-2 text-black/70">Answers to common questions.</p>
-              </a>
-            </Reveal>
-            <Reveal delayMs={240}>
-              <a href="/contact" className="border p-6 rounded-xl block transition-transform hover:-translate-y-1">
-                <h3 className="font-sentient text-lg">Contact</h3>
-                <p className="mt-2 text-black/70">Lead form and social links.</p>
               </a>
             </Reveal>
           </div>

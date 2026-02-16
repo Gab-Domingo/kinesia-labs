@@ -2,9 +2,16 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
-import ModelViewer from "@/components/ModelViewer";
 import Reveal from "@/components/ux/Reveal";
+
+const ModelViewer = dynamic(() => import("@/components/ModelViewer"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full bg-white/5 animate-pulse rounded-lg" style={{ height: 420 }} aria-hidden />
+  ),
+});
 
 export function AboutHero() {
   return (
@@ -23,7 +30,7 @@ export function AboutHero() {
           {/* subheading removed per request */}
           <Reveal delayMs={90}>
             <div className="mt-10 flex flex-wrap gap-4">
-              <Link href="/contact" className="contents">
+              <Link href="/about#faqs" className="contents">
                 <Button className="border-foreground/30 text-foreground/80 bg-transparent hover:text-foreground hover:border-foreground/60">
                   Collaborate with Us
                 </Button>

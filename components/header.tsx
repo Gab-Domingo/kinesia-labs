@@ -14,8 +14,6 @@ export const Header = () => {
             { name: "About", href: "/about" },
             { name: "Industries", href: "/industries" },
             { name: "Research", href: "/research" },
-            { name: "FAQs", href: "/faqs" },
-            { name: "Contact", href: "/contact" },
           ].map((item) => (
             <Link
               className="uppercase inline-block font-mono text-foreground/60 hover:text-foreground/100 duration-150 transition-colors ease-out"
@@ -26,7 +24,7 @@ export const Header = () => {
             </Link>
           ))}
         </nav>
-        <Link className="uppercase max-lg:hidden transition-colors ease-out duration-150 font-mono text-primary hover:text-primary/80" href="/contact">
+        <Link className="uppercase max-lg:hidden transition-colors ease-out duration-150 font-mono text-primary hover:text-primary/80" href="/about#faqs">
           Get in Touch
         </Link>
         <MobileMenu />

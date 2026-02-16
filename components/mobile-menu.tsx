@@ -17,8 +17,6 @@ export const MobileMenu = ({ className }: MobileMenuProps) => {
     { name: "About", href: "/about" },
     { name: "Industries", href: "/industries" },
     { name: "Research", href: "/research" },
-    { name: "FAQs", href: "/faqs" },
-    { name: "Contact", href: "/contact" },
   ];
 
   const handleLinkClick = () => {
@@ -73,7 +71,7 @@ export const MobileMenu = ({ className }: MobileMenuProps) => {
 
             <div className="mt-6">
               <Link
-                href="/contact"
+                href="/about#faqs"
                 onClick={handleLinkClick}
                 className="inline-block text-xl font-mono uppercase text-primary transition-colors ease-out duration-150 hover:text-primary/80 py-2"
               >

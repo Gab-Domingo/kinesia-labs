@@ -1,6 +1,8 @@
 // @ts-nocheck
 "use client";
 
+import { useEffect, useState } from "react";
+
 // orientation: "horizontal" (default) keeps the animated pipeline
 // orientation: "vertical" shows a tall Lottie visual with a concise legend
 export function IntentDecodingDiagram({
@@ -12,27 +14,34 @@ export function IntentDecodingDiagram({
   orientation?: "horizontal" | "vertical";
   lottieSrc?: string;
 }) {
-  // Lazy-load the official Lottie web component if needed
-  // We avoid adding a package and use the lightweight web component via CDN
-  if (typeof window !== "undefined") {
-    // @ts-ignore
-    if (!customElements.get("lottie-player")) {
-      const existing = document.querySelector('script[data-lib="lottie-player"]');
-      if (!existing) {
-        const script = document.createElement("script");
-        script.src = "https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js";
-        script.async = true;
-        script.setAttribute("data-lib", "lottie-player");
-        document.head.appendChild(script);
-      }
+  const [lottieReady, setLottieReady] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || orientation !== "vertical" || !lottieSrc) return;
+    const check = () => (window as any).customElements?.get?.("lottie-player") && setLottieReady(true);
+    if ((window as any).customElements?.get?.("lottie-player")) {
+      setLottieReady(true);
+      return;
     }
-  }
+    const existing = document.querySelector('script[data-lib="lottie-player"]');
+    if (existing) {
+      check();
+      const id = setInterval(check, 150);
+      return () => clearInterval(id);
+    }
+    const script = document.createElement("script");
+    script.src = "https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js";
+    script.async = true;
+    script.setAttribute("data-lib", "lottie-player");
+    script.onload = () => setLottieReady(true);
+    document.head.appendChild(script);
+  }, [orientation, lottieSrc]);
 
   if (orientation === "vertical") {
     return (
       <div className="rounded-xl border border-white/10 overflow-hidden bg-white/5">
         <div className="relative h-[420px] md:h-[520px]">
-          {lottieSrc ? (
+          {lottieSrc && lottieReady ? (
             // @ts-ignore - custom element provided by web component script
             <lottie-player
               autoplay
@@ -43,6 +52,8 @@ export function IntentDecodingDiagram({
               speed="1"
               background="transparent"
             />
+          ) : lottieSrc ? (
+            <div className="w-full h-full bg-white/5 animate-pulse" aria-hidden />
           ) : null}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/25" />
         </div>

@@ -37,7 +37,7 @@ export function IntegrationSection() {
         <Reveal delayMs={200}>
           <div className="mt-10 flex items-center justify-center gap-4">
             <Button asChild>
-              <Link href="/contact">Contact Our Team</Link>
+              <Link href="/about#faqs">Contact Our Team</Link>
             </Button>
             <Button asChild>
               <Link href="/research">View Integration Guide</Link>
