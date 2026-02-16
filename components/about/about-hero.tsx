@@ -2,8 +2,14 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import Reveal from "@/components/ux/Reveal";
+
+const ModelViewer = dynamic(
+  () => import("@/components/ModelViewer").then((m) => m.default),
+  { ssr: false }
+);
 
 export function AboutHero() {
   return (
@@ -32,13 +38,20 @@ export function AboutHero() {
 
         <Reveal>
           <div className="relative">
-            <div className="rounded-xl overflow-hidden border border-white/10 bg-white/5 flex items-center justify-center" style={{ height: 420 }}>
-              <div className="text-center px-6">
-                <div className="w-24 h-24 mx-auto rounded-full border-2 border-primary/50 flex items-center justify-center mb-4">
-                  <span className="text-3xl font-sentient text-primary/80" aria-hidden>EMG</span>
-                </div>
-                <p className="font-mono text-foreground/60 text-sm">Armband model · Intent-to-control</p>
+            <div className="rounded-xl overflow-hidden border border-white/10 bg-white/5 flex flex-col" style={{ height: 420 }}>
+              <div className="flex-1 min-h-0 w-full">
+                <ModelViewer
+                  url="/assets/models/arm_band.glb"
+                  width="100%"
+                  height="100%"
+                  autoRotate
+                  autoRotateSpeed={0.4}
+                  environmentPreset="studio"
+                />
               </div>
+              <p className="font-mono text-foreground/60 text-sm text-center py-3 border-t border-white/10">
+                Armband model · Intent-to-control
+              </p>
             </div>
             <div className="md:block hidden absolute -inset-6 -z-10 bg-[conic-gradient(from_180deg_at_50%_50%,rgba(235,184,0,0.10),transparent_60%)] blur-2xl" />
           </div>
