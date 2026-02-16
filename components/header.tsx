@@ -6,8 +6,8 @@ export const Header = () => {
   return (
     <div className="fixed z-50 top-0 left-0 right-0 w-full bg-background/95 backdrop-blur-sm border-b border-border/50 py-3 md:py-4">
       <header className="flex items-center justify-between container">
-        <Link href="/" className="shrink-0">
-          <Logo className="h-8 md:h-9 w-auto" />
+        <Link href="/" className="shrink-0" aria-label="Home">
+          <Logo className="h-8 md:h-9 w-auto" alt="" />
         </Link>
         <nav className="flex max-lg:hidden absolute left-1/2 -translate-x-1/2 items-center justify-center gap-x-10">
           {[

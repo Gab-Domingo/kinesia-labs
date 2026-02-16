@@ -1,12 +1,12 @@
 import Image, { ImageProps } from "next/image";
 
-type LogoProps = Omit<ImageProps, "src" | "alt"> & { className?: string };
+type LogoProps = Omit<ImageProps, "src" | "alt"> & { className?: string; alt?: string };
 
-export const Logo = ({ className, ...props }: LogoProps) => {
+export const Logo = ({ className, alt = "", ...props }: LogoProps) => {
   return (
     <Image
       src="/assets/logo/Kinesia-Logo.png"
-      alt="Kinesia Labs"
+      alt={alt}
       width={120}
       height={40}
       className={className}
