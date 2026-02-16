@@ -21,7 +21,7 @@ export function AboutHero() {
           </Reveal>
           <Reveal delayMs={90}>
             <div className="mt-10 flex flex-wrap gap-4">
-              <Link href="/about#faqs" className="contents">
+              <Link href="/contact" className="contents">
                 <Button className="border-foreground/30 text-foreground/80 bg-transparent hover:text-foreground hover:border-foreground/60">
                   Collaborate with Us
                 </Button>

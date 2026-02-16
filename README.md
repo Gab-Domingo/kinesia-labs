@@ -16,6 +16,18 @@ Your project is live at:
 
 **[https://vercel.com/shared-8867s-projects/v0-archive](https://vercel.com/shared-8867s-projects/v0-archive)**
 
+### Environment variables (Vercel)
+
+The contact form (`/contact`) needs these in production. Add them in **Vercel → Project → Settings → Environment Variables** (do not commit `.env` to Git):
+
+| Variable | Description |
+|----------|-------------|
+| `RESEND_API_KEY` | Your [Resend](https://resend.com) API key |
+| `CONTACT_EMAIL` | Email address where contact submissions are sent |
+| `CONTACT_FROM_EMAIL` | *(Optional)* Required to send to any inbox. Resend’s default `onboarding@resend.dev` only delivers to the email on your Resend account. To send to `CONTACT_EMAIL` or others: [verify a domain](https://resend.com/docs/dashboard/domains/introduction) in Resend, then set this to e.g. `Kinesia Labs <contact@yourdomain.com>`. |
+
+Set them for **Production** (and **Preview** if you want the form on preview deployments). Redeploy after adding or changing variables.
+
 ## Build your app
 
 Continue building your app on:

@@ -43,6 +43,8 @@ export async function POST(request: Request) {
       );
     }
 
+    // onboarding@resend.dev only delivers to the Resend account email. To send to CONTACT_EMAIL
+    // or any recipient, verify a domain in Resend and set CONTACT_FROM_EMAIL to that domain.
     const fromEmail =
       process.env.CONTACT_FROM_EMAIL || "onboarding@resend.dev";
 

@@ -9,7 +9,7 @@ const faqs = [
   },
   {
     q: "Is the armband invasive or non-invasive?",
-    a: "Our current research and development focus on invasive (intramuscular or fine-wire) EMG. Invasive electrodes sit closer to the muscle tissue and pick up clearer, more selective signals with less crosstalk from neighbouring muscles and less sensitivity to skin impedance and movement artefact. That higher fidelity supports more reliable intent decoding and lower latency, which is critical for assistive control. We are also evaluating non-invasive (surface) EMG pathways for future products to improve accessibility and ease of use, while continuing to advance signal processing so that surface EMG can approach the robustness we achieve with invasive methods.",
+    a: "Our armband is non-invasive. We use surface EMG: electrodes sit on the skin and capture muscle activity without needles or implants. This makes the system wearable, easy to set up, and accessible for daily use. We combine high-quality sensors with advanced signal processing and intent-decoding algorithms to achieve clear, selective signals and low-latency control—so you get reliable assistive control from a non-invasive device that fits into real-world, ambulatory settings.",
   },
   {
     q: "How accurate is the control?",
@@ -17,7 +17,7 @@ const faqs = [
   },
   {
     q: "Who can use the product?",
-    a: "Our initial focus is on people with mobility impairments who can benefit from EMG-driven assistive control—for example, wheelchair users who can generate consistent muscle activity in the arm or shoulder. We also work with research and clinical partners to validate the technology and explore new user groups. Use depends on having detectable, interpretable EMG signals from the target muscle groups; we do not assume full motor function. As we expand to non-invasive options and more form factors, we aim to make the technology accessible to a broader population while maintaining the reliability required for assistive and safety-critical applications.",
+    a: "Our initial focus is on people with mobility impairments who can benefit from EMG-driven assistive control—for example, wheelchair users who can generate consistent muscle activity in the arm or shoulder. We also work with research and clinical partners to validate the technology and explore new user groups. Use depends on having detectable, interpretable EMG signals from the target muscle groups; we do not assume full motor function. Our non-invasive armband is designed for accessibility and ease of use, so we can bring reliable, safety-critical assistive control to a broad population without implants or clinical procedures.",
   },
   {
     q: "How does it connect to hardware?",
@@ -25,7 +25,7 @@ const faqs = [
   },
   {
     q: "What makes Kinesia Labs’ approach different?",
-    a: "We combine invasive EMG for high-fidelity input with adaptive signal processing and real-time AI intent decoding. Many solutions rely on surface EMG or joysticks, which can be noisier or less intuitive; we prioritise signal quality and then build models and filters tuned for assistive control loops. Our work is grounded in research—adaptive filtering, denoising, and latency optimisation—so that the system performs not only in the lab but in real-world, ambulatory settings. We focus on clear, explainable outputs (including confidence) and on integrating with existing assistive and industrial hardware, so that our technology can be adopted within current workflows and safety frameworks.",
+    a: "We use non-invasive (surface) EMG and pair it with adaptive signal processing and real-time AI intent decoding to achieve high-fidelity control without implants. Many solutions use surface EMG or joysticks but struggle with noise and reliability; we prioritise signal quality through advanced filtering and denoising, then build models tuned for assistive control loops. Our work is grounded in research—adaptive filtering, denoising, and latency optimisation—so that the system performs not only in the lab but in real-world, ambulatory settings. We focus on clear, explainable outputs (including confidence) and on integrating with existing assistive and industrial hardware, so that our technology can be adopted within current workflows and safety frameworks.",
   },
 ];
 
