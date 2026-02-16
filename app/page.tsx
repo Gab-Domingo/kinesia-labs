@@ -34,8 +34,14 @@ export default function Home() {
       />
       <section className="container -mt-12">
         <Reveal>
-          <div className="h-64 md:h-96 border rounded-xl flex items-center justify-center text-foreground/60 hover:shadow-[var(--shadow-glow)] transition-shadow">
-            Video Embed Placeholder
+          <div className="h-64 md:h-96 border rounded-xl overflow-hidden hover:shadow-[var(--shadow-glow)] transition-shadow bg-black">
+            <video
+              src="/assets/demo/product-demo.mp4"
+              controls
+              playsInline
+              className="w-full h-full object-contain"
+              aria-label="Proof of concept: Kinesia Armband wheelchair control demo"
+            />
           </div>
         </Reveal>
       </section>
