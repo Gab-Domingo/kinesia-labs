@@ -4,7 +4,7 @@ import { MobileMenu } from "./mobile-menu";
 
 export const Header = () => {
   return (
-    <div className="fixed z-50 pt-8 md:pt-14 top-0 left-0 w-full">
+    <div className="fixed z-50 top-0 left-0 right-0 w-full bg-background/95 backdrop-blur-sm border-b border-border/50 pt-8 md:pt-14 pb-4 md:pb-5">
       <header className="flex items-center justify-between container">
         <Link href="/">
           <Logo className="w-[100px] md:w-[120px]" />

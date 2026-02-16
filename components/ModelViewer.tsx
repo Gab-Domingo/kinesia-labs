@@ -109,8 +109,10 @@ interface ModelInnerProps {
   onLoaded?: () => void;
 }
 
-const ModelInner: FC<ModelInnerProps> = ({
-  url,
+type ModelInnerBaseProps = Omit<ModelInnerProps, 'url'> & { content: THREE.Object3D };
+
+const ModelInnerBase: FC<ModelInnerBaseProps> = ({
+  content,
   xOff,
   yOff,
   pivot,
@@ -138,18 +140,9 @@ const ModelInner: FC<ModelInnerProps> = ({
   const tHov = useRef({ x: 0, y: 0 });
   const cHov = useRef({ x: 0, y: 0 });
 
-  const ext = useMemo(() => url.split('.').pop()!.toLowerCase(), [url]);
-  const content = useMemo<THREE.Object3D | null>(() => {
-    if (ext === 'glb' || ext === 'gltf') return useGLTF(url).scene.clone();
-    if (ext === 'fbx') return useFBX(url).clone();
-    if (ext === 'obj') return useLoader(OBJLoader, url).clone();
-    console.error('Unsupported format:', ext);
-    return null;
-  }, [url, ext]);
-
   const pivotW = useRef(new THREE.Vector3());
+
   useLayoutEffect(() => {
-    if (!content) return;
     const g = inner.current;
     g.updateWorldMatrix(true, true);
 
@@ -384,7 +377,6 @@ const ModelInner: FC<ModelInnerProps> = ({
     if (need) invalidate();
   });
 
-  if (!content) return null;
   return (
     <group ref={outer}>
       <group ref={inner}>
@@ -392,6 +384,36 @@ const ModelInner: FC<ModelInnerProps> = ({
       </group>
     </group>
   );
+};
+
+function ModelInnerGlb(props: ModelInnerProps) {
+  const { url, ...rest } = props;
+  const gltf = useGLTF(url);
+  const content = useMemo(() => gltf.scene.clone(), [gltf.scene]);
+  return <ModelInnerBase content={content} {...rest} />;
+}
+
+function ModelInnerFbx(props: ModelInnerProps) {
+  const { url, ...rest } = props;
+  const fbx = useFBX(url);
+  const content = useMemo(() => fbx.clone(), [fbx]);
+  return <ModelInnerBase content={content} {...rest} />;
+}
+
+function ModelInnerObj(props: ModelInnerProps) {
+  const { url, ...rest } = props;
+  const obj = useLoader(OBJLoader, url);
+  const content = useMemo(() => obj.clone(), [obj]);
+  return <ModelInnerBase content={content} {...rest} />;
+}
+
+const ModelInner: FC<ModelInnerProps> = (props) => {
+  const ext = useMemo(() => props.url.split('.').pop()!.toLowerCase(), [props.url]);
+  if (ext === 'glb' || ext === 'gltf') return <ModelInnerGlb {...props} />;
+  if (ext === 'fbx') return <ModelInnerFbx {...props} />;
+  if (ext === 'obj') return <ModelInnerObj {...props} />;
+  console.error('Unsupported format:', ext);
+  return null;
 };
 
 const ModelViewer: FC<ViewerProps> = ({
@@ -422,7 +444,10 @@ const ModelViewer: FC<ViewerProps> = ({
   autoRotateSpeed = 0.35,
   onModelLoaded
 }) => {
-  useEffect(() => void useGLTF.preload(url), [url]);
+  useEffect(() => {
+    const ext = url.split('.').pop()?.toLowerCase();
+    if (ext === 'glb' || ext === 'gltf') useGLTF.preload(url);
+  }, [url]);
   const pivot = useRef(new THREE.Vector3()).current;
   const contactRef = useRef<THREE.Mesh>(null);
   const rendererRef = useRef<THREE.WebGLRenderer>(null);
