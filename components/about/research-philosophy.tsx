@@ -18,7 +18,7 @@ export function ResearchPhilosophy() {
         {/* Left: Diagram */}
         <Reveal>
           <div className="md:sticky md:top-28">
-            <IntentDecodingDiagram orientation="vertical" lottieSrc="/assets/research/Circuit%20Board%202%20(White).json" />
+            <IntentDecodingDiagram orientation="horizontal" />
           </div>
         </Reveal>
 

@@ -1,13 +1,14 @@
 import Image, { ImageProps } from "next/image";
-import KinesiaLogo from "@/assets/kinesia-labs.jpg";
 
 type LogoProps = Omit<ImageProps, "src" | "alt"> & { className?: string };
 
 export const Logo = ({ className, ...props }: LogoProps) => {
   return (
     <Image
-      src={KinesiaLogo}
+      src="/assets/logo/Kinesia-Logo.png"
       alt="Kinesia Labs"
+      width={120}
+      height={40}
       className={className}
       style={{ height: "auto" }}
       priority

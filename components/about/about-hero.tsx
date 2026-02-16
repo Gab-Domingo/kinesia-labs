@@ -2,16 +2,8 @@
 "use client";
 
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import Reveal from "@/components/ux/Reveal";
-
-const ModelViewer = dynamic(() => import("@/components/ModelViewer"), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full bg-white/5 animate-pulse rounded-lg" style={{ height: 420 }} aria-hidden />
-  ),
-});
 
 export function AboutHero() {
   return (
@@ -27,7 +19,6 @@ export function AboutHero() {
               EMG armband that turns muscle intent into precise control
             </h1>
           </Reveal>
-          {/* subheading removed per request */}
           <Reveal delayMs={90}>
             <div className="mt-10 flex flex-wrap gap-4">
               <Link href="/about#faqs" className="contents">
@@ -41,20 +32,13 @@ export function AboutHero() {
 
         <Reveal>
           <div className="relative">
-            <div className="rounded-xl overflow-hidden border border-white/10">
-              <ModelViewer
-                url="/assets/models/armband.glb"
-                height={420}
-                environmentPreset="studio"
-                defaultRotationX={0}
-                defaultRotationY={0}
-                defaultZoom={1.2}
-                minZoomDistance={0.8}
-                maxZoomDistance={4.0}
-                autoFrame
-                enableManualZoom
-                fadeIn
-              />
+            <div className="rounded-xl overflow-hidden border border-white/10 bg-white/5 flex items-center justify-center" style={{ height: 420 }}>
+              <div className="text-center px-6">
+                <div className="w-24 h-24 mx-auto rounded-full border-2 border-primary/50 flex items-center justify-center mb-4">
+                  <span className="text-3xl font-sentient text-primary/80" aria-hidden>EMG</span>
+                </div>
+                <p className="font-mono text-foreground/60 text-sm">Armband model · Intent-to-control</p>
+              </div>
             </div>
             <div className="md:block hidden absolute -inset-6 -z-10 bg-[conic-gradient(from_180deg_at_50%_50%,rgba(235,184,0,0.10),transparent_60%)] blur-2xl" />
           </div>

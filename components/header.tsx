@@ -4,10 +4,10 @@ import { MobileMenu } from "./mobile-menu";
 
 export const Header = () => {
   return (
-    <div className="fixed z-50 top-0 left-0 right-0 w-full bg-background/95 backdrop-blur-sm border-b border-border/50 pt-8 md:pt-14 pb-4 md:pb-5">
+    <div className="fixed z-50 top-0 left-0 right-0 w-full bg-background/95 backdrop-blur-sm border-b border-border/50 py-3 md:py-4">
       <header className="flex items-center justify-between container">
-        <Link href="/">
-          <Logo className="w-[100px] md:w-[120px]" />
+        <Link href="/" className="shrink-0">
+          <Logo className="h-8 md:h-9 w-auto" />
         </Link>
         <nav className="flex max-lg:hidden absolute left-1/2 -translate-x-1/2 items-center justify-center gap-x-10">
           {[
