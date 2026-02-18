@@ -21,23 +21,23 @@ export function Hero() {
           Kinesia Labs pioneers EMG-driven interfaces that let humans control machines through muscle intent.
         </p>
 
-        <Link className="contents max-sm:hidden" href="/#demo">
+        <Link className="contents max-sm:hidden" href="/contact">
           <Button
             className="mt-14"
             onMouseEnter={() => setHovering(true)}
             onMouseLeave={() => setHovering(false)}
           >
-            [Watch Product Demo]
+            [Join The Pilot List]
           </Button>
         </Link>
-        <Link className="contents sm:hidden" href="/#demo">
+        <Link className="contents sm:hidden" href="/contact">
           <Button
             size="sm"
             className="mt-14"
             onMouseEnter={() => setHovering(true)}
             onMouseLeave={() => setHovering(false)}
           >
-            [Watch Product Demo]
+            [Join The Pilot List]
           </Button>
         </Link>
       </div>
