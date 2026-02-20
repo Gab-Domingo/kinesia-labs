@@ -69,7 +69,7 @@ const pilotSignupSchema = z.object({
   }),
   impactDescription: z
     .string()
-    .min(10, "Please describe what this would change for you (at least 10 characters).")
+    .min(1, "Please describe what this would change for you.")
     .max(2000, "Description is too long."),
 
   // Block E – Logistics and consent
