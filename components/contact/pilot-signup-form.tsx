@@ -47,13 +47,13 @@ export function PilotSignupForm() {
       country: formData.get("country") as string,
       city: formData.get("city") as string,
       useCase: formData.get("useCase") as UseCase,
-      useCaseOther: formData.get("useCaseOther") as string,
+      useCaseOther: (formData.get("useCaseOther") as string | null) ?? undefined,
       userRole: formData.get("userRole") as UserRole,
-      userRoleOther: formData.get("userRoleOther") as string,
-      problemStatement: formData.get("problemStatement") as string,
+      userRoleOther: (formData.get("userRoleOther") as string | null) ?? undefined,
+      problemStatement: (formData.get("problemStatement") as string | null) ?? undefined,
       pilotReadiness: formData.get("pilotReadiness") as PilotReadiness,
       testingLocations: Array.from(selectedLocations),
-      outcomeDescription: formData.get("outcomeDescription") as string,
+      outcomeDescription: (formData.get("outcomeDescription") as string | null) ?? undefined,
       consentPilotContact: formData.get("consentPilotContact") === "on",
       wantsUpdates: formData.get("wantsUpdates") === "on",
     };
@@ -243,12 +243,11 @@ export function PilotSignupForm() {
 
         <div>
           <label htmlFor="problemStatement" className={labelClassName}>
-            What problem are you trying to solve? *
+            What problem are you trying to solve?
           </label>
           <textarea
             id="problemStatement"
             name="problemStatement"
-            required
             rows={3}
             disabled={status === "loading"}
             placeholder="Describe in 1–2 sentences the challenge you're facing…"
@@ -313,12 +312,11 @@ export function PilotSignupForm() {
 
         <div>
           <label htmlFor="outcomeDescription" className={labelClassName}>
-            What would success look like for you? *
+            What would success look like for you?
           </label>
           <textarea
             id="outcomeDescription"
             name="outcomeDescription"
-            required
             rows={4}
             disabled={status === "loading"}
             placeholder="Tell us what a meaningful outcome would be for you or your team…"

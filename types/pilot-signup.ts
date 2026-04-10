@@ -36,10 +36,10 @@ export interface PilotSignupData {
   useCaseOther?: string;
   userRole: UserRole;
   userRoleOther?: string;
-  problemStatement: string;
+  problemStatement?: string;
   pilotReadiness: PilotReadiness;
   testingLocations: string[];
-  outcomeDescription: string;
+  outcomeDescription?: string;
   consentPilotContact: boolean;
   wantsUpdates?: boolean;
 }

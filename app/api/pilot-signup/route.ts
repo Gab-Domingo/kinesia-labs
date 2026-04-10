@@ -36,10 +36,7 @@ const pilotSignupSchema = z.object({
   userRoleOther: z.string().max(200, "Description is too long.").optional(),
 
   // Problem statement
-  problemStatement: z
-    .string()
-    .min(1, "Please describe the problem you're trying to solve.")
-    .max(1000, "Description is too long."),
+  problemStatement: z.string().max(1000, "Description is too long.").optional(),
 
   // Pilot readiness
   pilotReadiness: z.enum([
@@ -55,10 +52,7 @@ const pilotSignupSchema = z.object({
   testingLocations: z.array(z.string()).min(1, "Please select at least one testing location."),
 
   // Outcome
-  outcomeDescription: z
-    .string()
-    .min(1, "Please describe what success looks like for you.")
-    .max(2000, "Description is too long."),
+  outcomeDescription: z.string().max(2000, "Description is too long.").optional(),
 
   // Consent
   consentPilotContact: z.boolean().refine((val) => val === true, {
@@ -119,7 +113,7 @@ export async function POST(request: Request) {
       </ul>
 
       <h3>Problem Statement</h3>
-      <pre style="white-space: pre-wrap; font-family: inherit; background: #f5f5f5; padding: 12px; border-radius: 4px;">${escapeHtml(data.problemStatement)}</pre>
+      <pre style="white-space: pre-wrap; font-family: inherit; background: #f5f5f5; padding: 12px; border-radius: 4px;">${data.problemStatement ? escapeHtml(data.problemStatement) : "<em>Not provided</em>"}</pre>
 
       <h3>Pilot Details</h3>
       <ul>
@@ -128,7 +122,7 @@ export async function POST(request: Request) {
       </ul>
 
       <h3>What Does Success Look Like?</h3>
-      <pre style="white-space: pre-wrap; font-family: inherit; background: #f5f5f5; padding: 12px; border-radius: 4px;">${escapeHtml(data.outcomeDescription)}</pre>
+      <pre style="white-space: pre-wrap; font-family: inherit; background: #f5f5f5; padding: 12px; border-radius: 4px;">${data.outcomeDescription ? escapeHtml(data.outcomeDescription) : "<em>Not provided</em>"}</pre>
 
       <h3>Preferences</h3>
       <ul>

@@ -9,7 +9,7 @@ export default function ResearchPage() {
           EMG captures muscle activity; our pipeline filters, denoises, and decodes intent in real-time to drive control signals.
         </p>
         <div className="mt-6 h-48 border rounded-xl flex items-center justify-center text-foreground/60">
-          Diagram Placeholder
+          Research will soon be available here.
         </div>
       </section>
 
