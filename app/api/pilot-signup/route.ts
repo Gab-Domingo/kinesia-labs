@@ -3,78 +3,64 @@ import { Resend } from "resend";
 import { z } from "zod";
 
 const pilotSignupSchema = z.object({
-  // Block A – Basic contact
+  // Contact
   name: z.string().min(1, "Name is required.").max(200, "Name is too long."),
   email: z.string().email("Please enter a valid email address."),
   country: z.string().min(1, "Country is required.").max(100, "Country is too long."),
   city: z.string().min(1, "City is required.").max(100, "City is too long."),
-  socialHandle: z.string().max(100, "Social handle is too long.").optional(),
 
-  // Block B – Who you are
-  userType: z.enum([
-    "full-time-wheelchair-user",
-    "part-time-wheelchair-user",
-    "caregiver-family",
+  // Use case
+  useCase: z.enum([
+    "mobility-wheelchair",
+    "forearm-rehabilitation",
+    "industrial-fatigue",
+    "robotics-exoskeleton",
+    "research-clinical",
     "other",
   ], {
-    errorMap: () => ({ message: "Please select who you are." }),
+    errorMap: () => ({ message: "Please select a primary use case." }),
   }),
-  userTypeOther: z.string().max(200, "Description is too long.").optional(),
-  ageRange: z.enum([
-    "under-18",
-    "18-24",
-    "25-34",
-    "35-44",
-    "45-54",
-    "55-plus",
-  ], {
-    errorMap: () => ({ message: "Please select your age range." }),
-  }),
+  useCaseOther: z.string().max(200, "Description is too long.").optional(),
 
-  // Block C – Wheelchair and daily use
-  wheelchairType: z.enum(["manual", "power", "both"], {
-    errorMap: () => ({ message: "Please select your wheelchair type." }),
-  }),
-  usageLocations: z.array(z.string()).min(1, "Please select at least one location."),
-  dailyHours: z.enum([
-    "less-than-2",
-    "2-4",
-    "4-8",
-    "more-than-8",
+  // Role
+  userRole: z.enum([
+    "end-user-patient",
+    "caregiver-family",
+    "clinician-therapist",
+    "researcher-engineer",
+    "company-operations",
+    "other",
   ], {
-    errorMap: () => ({ message: "Please select daily usage hours." }),
+    errorMap: () => ({ message: "Please select your role." }),
   }),
+  userRoleOther: z.string().max(200, "Description is too long.").optional(),
 
-  // Block D – Interest and intent
-  interestLevel: z.enum([
-    "very-interested",
-    "curious",
-    "not-sure",
-  ], {
-    errorMap: () => ({ message: "Please select your interest level." }),
-  }),
-  openToInvasive: z.enum([
-    "yes-possibly",
-    "maybe-need-info",
-    "no",
-  ], {
-    errorMap: () => ({ message: "Please indicate your interest in trying the device." }),
-  }),
-  pilotAvailability: z.enum([
-    "yes-if-near",
-    "maybe-depends",
-    "probably-not",
-  ], {
-    errorMap: () => ({ message: "Please indicate your availability for pilots." }),
-  }),
-  impactDescription: z
+  // Problem statement
+  problemStatement: z
     .string()
-    .min(1, "Please describe what this would change for you.")
+    .min(1, "Please describe the problem you're trying to solve.")
+    .max(1000, "Description is too long."),
+
+  // Pilot readiness
+  pilotReadiness: z.enum([
+    "ready-now",
+    "next-3-6-months",
+    "need-more-info",
+    "just-updates",
+  ], {
+    errorMap: () => ({ message: "Please select your pilot readiness." }),
+  }),
+
+  // Testing locations
+  testingLocations: z.array(z.string()).min(1, "Please select at least one testing location."),
+
+  // Outcome
+  outcomeDescription: z
+    .string()
+    .min(1, "Please describe what success looks like for you.")
     .max(2000, "Description is too long."),
 
-  // Block E – Logistics and consent
-  timezone: z.string().max(100, "Timezone is too long.").optional(),
-  emailIsPreferred: z.boolean(),
+  // Consent
   consentPilotContact: z.boolean().refine((val) => val === true, {
     message: "You must consent to be contacted about pilots.",
   }),
@@ -116,45 +102,36 @@ export async function POST(request: Request) {
     const fromEmail =
       process.env.CONTACT_FROM_EMAIL || "onboarding@resend.dev";
 
-    // Format the email with all pilot data
     const emailHtml = `
-      <h2>New Wheelchair Pilot Signup</h2>
-      
+      <h2>New Pilot Signup – ${escapeHtml(formatUseCase(data.useCase))}</h2>
+
       <h3>Contact Information</h3>
       <ul>
         <li><strong>Name:</strong> ${escapeHtml(data.name)}</li>
         <li><strong>Email:</strong> ${escapeHtml(data.email)}</li>
         <li><strong>Location:</strong> ${escapeHtml(data.city)}, ${escapeHtml(data.country)}</li>
-        ${data.socialHandle ? `<li><strong>Social Handle:</strong> ${escapeHtml(data.socialHandle)}</li>` : ""}
-        ${data.timezone ? `<li><strong>Timezone:</strong> ${escapeHtml(data.timezone)}</li>` : ""}
       </ul>
 
-      <h3>User Profile</h3>
+      <h3>Use Case & Role</h3>
       <ul>
-        <li><strong>User Type:</strong> ${formatUserType(data.userType)}${data.userTypeOther ? ` (${escapeHtml(data.userTypeOther)})` : ""}</li>
-        <li><strong>Age Range:</strong> ${formatAgeRange(data.ageRange)}</li>
+        <li><strong>Primary Use Case:</strong> ${escapeHtml(formatUseCase(data.useCase))}${data.useCaseOther ? ` – ${escapeHtml(data.useCaseOther)}` : ""}</li>
+        <li><strong>Role:</strong> ${escapeHtml(formatUserRole(data.userRole))}${data.userRoleOther ? ` – ${escapeHtml(data.userRoleOther)}` : ""}</li>
       </ul>
 
-      <h3>Wheelchair Usage</h3>
+      <h3>Problem Statement</h3>
+      <pre style="white-space: pre-wrap; font-family: inherit; background: #f5f5f5; padding: 12px; border-radius: 4px;">${escapeHtml(data.problemStatement)}</pre>
+
+      <h3>Pilot Details</h3>
       <ul>
-        <li><strong>Wheelchair Type:</strong> ${formatWheelchairType(data.wheelchairType)}</li>
-        <li><strong>Usage Locations:</strong> ${data.usageLocations.map(escapeHtml).join(", ")}</li>
-        <li><strong>Daily Hours:</strong> ${formatDailyHours(data.dailyHours)}</li>
+        <li><strong>Readiness:</strong> ${escapeHtml(formatPilotReadiness(data.pilotReadiness))}</li>
+        <li><strong>Testing Locations:</strong> ${data.testingLocations.map(escapeHtml).join(", ")}</li>
       </ul>
 
-      <h3>Interest & Availability</h3>
-      <ul>
-        <li><strong>Interest Level:</strong> ${formatInterestLevel(data.interestLevel)}</li>
-        <li><strong>Interest in Device:</strong> ${formatOpenToInvasive(data.openToInvasive)}</li>
-        <li><strong>Pilot Availability:</strong> ${formatPilotAvailability(data.pilotAvailability)}</li>
-      </ul>
+      <h3>What Does Success Look Like?</h3>
+      <pre style="white-space: pre-wrap; font-family: inherit; background: #f5f5f5; padding: 12px; border-radius: 4px;">${escapeHtml(data.outcomeDescription)}</pre>
 
-      <h3>What Would This Change?</h3>
-      <pre style="white-space: pre-wrap; font-family: inherit; background: #f5f5f5; padding: 12px; border-radius: 4px;">${escapeHtml(data.impactDescription)}</pre>
-
-      <h3>Contact Preferences</h3>
+      <h3>Preferences</h3>
       <ul>
-        <li><strong>Email is Preferred:</strong> ${data.emailIsPreferred ? "Yes" : "No"}</li>
         <li><strong>Wants Updates:</strong> ${data.wantsUpdates ? "Yes" : "No"}</li>
       </ul>
     `;
@@ -163,7 +140,7 @@ export async function POST(request: Request) {
       from: fromEmail,
       to: [toEmail],
       replyTo: data.email,
-      subject: `Wheelchair Pilot Signup – ${data.name} (${data.city}, ${data.country})`,
+      subject: `Pilot Signup – ${data.name} (${formatUseCase(data.useCase)}, ${data.city})`,
       html: emailHtml,
     });
 
@@ -194,70 +171,36 @@ function escapeHtml(s: string): string {
     .replace(/'/g, "&#039;");
 }
 
-function formatUserType(type: string): string {
+function formatUseCase(uc: string): string {
   const map: Record<string, string> = {
-    "full-time-wheelchair-user": "Full-time wheelchair user",
-    "part-time-wheelchair-user": "Part-time wheelchair user",
-    "caregiver-family": "Caregiver/Family member",
+    "mobility-wheelchair": "Mobility / Wheelchair Control",
+    "forearm-rehabilitation": "Forearm Rehabilitation & Diagnostics",
+    "industrial-fatigue": "Industrial / Logistics Fatigue Monitoring",
+    "robotics-exoskeleton": "Robotics / Exoskeleton Control",
+    "research-clinical": "Research / Clinical Trials",
     "other": "Other",
   };
-  return map[type] || type;
+  return map[uc] || uc;
 }
 
-function formatAgeRange(range: string): string {
+function formatUserRole(role: string): string {
   const map: Record<string, string> = {
-    "under-18": "Under 18",
-    "18-24": "18-24",
-    "25-34": "25-34",
-    "35-44": "35-44",
-    "45-54": "45-54",
-    "55-plus": "55+",
+    "end-user-patient": "End user / Patient",
+    "caregiver-family": "Caregiver or Family member",
+    "clinician-therapist": "Clinician / Therapist",
+    "researcher-engineer": "Researcher / Engineer",
+    "company-operations": "Company / Operations Leader",
+    "other": "Other",
   };
-  return map[range] || range;
+  return map[role] || role;
 }
 
-function formatWheelchairType(type: string): string {
+function formatPilotReadiness(readiness: string): string {
   const map: Record<string, string> = {
-    "manual": "Manual",
-    "power": "Power/Electric",
-    "both": "Both",
+    "ready-now": "Ready to join early pilot now",
+    "next-3-6-months": "Interested in next 3–6 months",
+    "need-more-info": "Interested, but need more info first",
+    "just-updates": "Just want product updates for now",
   };
-  return map[type] || type;
-}
-
-function formatDailyHours(hours: string): string {
-  const map: Record<string, string> = {
-    "less-than-2": "Less than 2 hours",
-    "2-4": "2-4 hours",
-    "4-8": "4-8 hours",
-    "more-than-8": "More than 8 hours",
-  };
-  return map[hours] || hours;
-}
-
-function formatInterestLevel(level: string): string {
-  const map: Record<string, string> = {
-    "very-interested": "Very interested – I'd love to test",
-    "curious": "Curious – want to learn more first",
-    "not-sure": "Not sure – just exploring",
-  };
-  return map[level] || level;
-}
-
-function formatOpenToInvasive(open: string): string {
-  const map: Record<string, string> = {
-    "yes-possibly": "Yes, definitely interested",
-    "maybe-need-info": "Maybe, need more info",
-    "no": "Not interested at this time",
-  };
-  return map[open] || open;
-}
-
-function formatPilotAvailability(avail: string): string {
-  const map: Record<string, string> = {
-    "yes-if-near": "Yes, if it's near me",
-    "maybe-depends": "Maybe, depends on timing and details",
-    "probably-not": "Probably not, I mostly want to follow progress",
-  };
-  return map[avail] || avail;
+  return map[readiness] || readiness;
 }

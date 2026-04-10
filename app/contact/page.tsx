@@ -12,32 +12,37 @@ export default function ContactPage() {
                 id="contact-heading"
                 className="text-4xl md:text-5xl font-sentient tracking-tight"
               >
-                Join Our Early Wheelchair Pilot List
+                Join Our Early Pilot List
               </h1>
             </Reveal>
             <Reveal delayMs={80}>
               <p className="mt-4 text-foreground/70 text-base md:text-lg">
-                We're building a non-invasive EMG armband to control wheelchairs through muscle intent. 
-                We're looking for wheelchair users interested in shaping what this becomes.
+                Kinesia Labs is developing an EMG armband that decodes muscle intent to control hardware —
+                from wheelchairs and exoskeletons to industrial monitoring and clinical diagnostics.
+                We're looking for early collaborators across all use cases.
               </p>
             </Reveal>
             <Reveal delayMs={120}>
               <div className="mt-8 p-6 rounded-lg border border-primary/30 bg-primary/5">
                 <h2 className="text-lg font-mono uppercase text-foreground/90 mb-3">
-                  Why we're asking
+                  Who we're looking for
                 </h2>
                 <ul className="space-y-2 text-sm text-foreground/70">
                   <li className="flex items-start gap-2">
                     <span className="text-primary mt-1">•</span>
-                    <span>Understand how you use your wheelchair in everyday life</span>
+                    <span>Wheelchair users and caregivers who want more intuitive control</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-primary mt-1">•</span>
-                    <span>Learn where this technology could actually help (and where it wouldn't)</span>
+                    <span>Clinicians and therapists working in rehabilitation settings</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-primary mt-1">•</span>
-                    <span>Show investors there's a real community asking for this</span>
+                    <span>Engineers and operators tackling fatigue or precision in industrial environments</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary mt-1">•</span>
+                    <span>Researchers exploring EMG-based human–machine interfaces</span>
                   </li>
                 </ul>
               </div>
@@ -50,19 +55,19 @@ export default function ContactPage() {
                 <ol className="space-y-2 text-sm text-foreground/70">
                   <li className="flex items-start gap-3">
                     <span className="font-mono text-primary">1.</span>
-                    <span>You submit this form (2–3 minutes)</span>
+                    <span>You fill out this form — takes under 3 minutes</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="font-mono text-primary">2.</span>
-                    <span>We review and tag your interest (location, wheelchair type, availability)</span>
+                    <span>We review your use case and availability</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="font-mono text-primary">3.</span>
-                    <span>When we're closer to pilots in your area, we email you first</span>
+                    <span>When a pilot relevant to you is ready, you hear from us first</span>
                   </li>
                 </ol>
                 <p className="mt-4 text-xs text-foreground/50">
-                  No commitment today. We'll reach out before any studies or trials.
+                  No commitment required. We'll reach out before any studies or trials begin.
                 </p>
               </div>
             </Reveal>

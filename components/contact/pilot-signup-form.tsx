@@ -3,21 +3,13 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import type {
-  UserType,
-  AgeRange,
-  WheelchairType,
-  DailyHours,
-  InterestLevel,
-  OpenToInvasive,
-  PilotAvailability,
-} from "@/types/pilot-signup";
+import type { UseCase, UserRole, PilotReadiness } from "@/types/pilot-signup";
 
-const USAGE_LOCATIONS = [
-  { id: "at-home", label: "At home" },
-  { id: "work-school", label: "At work / school" },
-  { id: "city-outdoors", label: "Around the city / outdoors" },
-  { id: "hospital-rehab", label: "Hospital / rehab setting" },
+const TESTING_LOCATIONS = [
+  { id: "home", label: "Home" },
+  { id: "clinic-rehab", label: "Clinic / Rehab center" },
+  { id: "workplace-industrial", label: "Workplace / Industrial site" },
+  { id: "lab-university", label: "Lab / University" },
   { id: "other", label: "Other" },
 ];
 
@@ -25,15 +17,17 @@ export function PilotSignupForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [selectedLocations, setSelectedLocations] = useState<Set<string>>(new Set());
+  const [useCase, setUseCase] = useState<UseCase | "">("");
+  const [userRole, setUserRole] = useState<UserRole | "">("");
 
   function toggleLocation(locationId: string) {
-    const newLocations = new Set(selectedLocations);
-    if (newLocations.has(locationId)) {
-      newLocations.delete(locationId);
+    const next = new Set(selectedLocations);
+    if (next.has(locationId)) {
+      next.delete(locationId);
     } else {
-      newLocations.add(locationId);
+      next.add(locationId);
     }
-    setSelectedLocations(newLocations);
+    setSelectedLocations(next);
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -41,10 +35,9 @@ export function PilotSignupForm() {
     const form = e.currentTarget;
     const formData = new FormData(form);
 
-    // Validate at least one usage location is selected
     if (selectedLocations.size === 0) {
       setStatus("error");
-      setErrorMessage("Please select at least one usage location.");
+      setErrorMessage("Please select at least one testing location.");
       return;
     }
 
@@ -53,19 +46,14 @@ export function PilotSignupForm() {
       email: formData.get("email") as string,
       country: formData.get("country") as string,
       city: formData.get("city") as string,
-      socialHandle: formData.get("socialHandle") as string,
-      userType: formData.get("userType") as UserType,
-      userTypeOther: formData.get("userTypeOther") as string,
-      ageRange: formData.get("ageRange") as AgeRange,
-      wheelchairType: formData.get("wheelchairType") as WheelchairType,
-      usageLocations: Array.from(selectedLocations),
-      dailyHours: formData.get("dailyHours") as DailyHours,
-      interestLevel: formData.get("interestLevel") as InterestLevel,
-      openToInvasive: formData.get("openToInvasive") as OpenToInvasive,
-      pilotAvailability: formData.get("pilotAvailability") as PilotAvailability,
-      impactDescription: formData.get("impactDescription") as string,
-      timezone: formData.get("timezone") as string,
-      emailIsPreferred: formData.get("emailIsPreferred") === "on",
+      useCase: formData.get("useCase") as UseCase,
+      useCaseOther: formData.get("useCaseOther") as string,
+      userRole: formData.get("userRole") as UserRole,
+      userRoleOther: formData.get("userRoleOther") as string,
+      problemStatement: formData.get("problemStatement") as string,
+      pilotReadiness: formData.get("pilotReadiness") as PilotReadiness,
+      testingLocations: Array.from(selectedLocations),
+      outcomeDescription: formData.get("outcomeDescription") as string,
       consentPilotContact: formData.get("consentPilotContact") === "on",
       wantsUpdates: formData.get("wantsUpdates") === "on",
     };
@@ -91,6 +79,8 @@ export function PilotSignupForm() {
       setStatus("success");
       form.reset();
       setSelectedLocations(new Set());
+      setUseCase("");
+      setUserRole("");
     } catch {
       setStatus("error");
       setErrorMessage("Network error. Please try again.");
@@ -115,14 +105,13 @@ export function PilotSignupForm() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-8 max-w-2xl">
-      {/* Block A – Basic contact */}
+
+      {/* Block A – Contact */}
       <div className="space-y-6">
         <h3 className="text-lg font-mono uppercase text-foreground/90">Contact Information</h3>
-        
+
         <div>
-          <label htmlFor="name" className={labelClassName}>
-            Name *
-          </label>
+          <label htmlFor="name" className={labelClassName}>Name *</label>
           <input
             id="name"
             name="name"
@@ -135,9 +124,7 @@ export function PilotSignupForm() {
         </div>
 
         <div>
-          <label htmlFor="email" className={labelClassName}>
-            Email *
-          </label>
+          <label htmlFor="email" className={labelClassName}>Email *</label>
           <input
             id="email"
             name="email"
@@ -152,9 +139,7 @@ export function PilotSignupForm() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="country" className={labelClassName}>
-              Country *
-            </label>
+            <label htmlFor="country" className={labelClassName}>Country *</label>
             <input
               id="country"
               name="country"
@@ -165,11 +150,8 @@ export function PilotSignupForm() {
               className={inputClassName}
             />
           </div>
-
           <div>
-            <label htmlFor="city" className={labelClassName}>
-              City *
-            </label>
+            <label htmlFor="city" className={labelClassName}>City *</label>
             <input
               id="city"
               name="city"
@@ -181,385 +163,208 @@ export function PilotSignupForm() {
             />
           </div>
         </div>
-
-        <div>
-          <label htmlFor="socialHandle" className={labelClassName}>
-            Instagram / Facebook handle (optional)
-          </label>
-          <input
-            id="socialHandle"
-            name="socialHandle"
-            type="text"
-            disabled={status === "loading"}
-            placeholder="@yourhandle"
-            className={inputClassName}
-          />
-        </div>
       </div>
 
-      {/* Block B – Who you are */}
+      {/* Block B – Use case */}
       <div className="space-y-6">
-        <h3 className="text-lg font-mono uppercase text-foreground/90">About You</h3>
+        <h3 className="text-lg font-mono uppercase text-foreground/90">Your Use Case</h3>
 
         <div>
-          <label className={labelClassName}>Which best describes you? *</label>
+          <label className={labelClassName}>Primary use case *</label>
           <div className={radioGroupClassName}>
-            <label className={radioLabelClassName}>
-              <input
-                type="radio"
-                name="userType"
-                value="full-time-wheelchair-user"
-                required
-                disabled={status === "loading"}
-                className="w-4 h-4 accent-primary"
-              />
-              <span>I'm a full-time wheelchair user</span>
-            </label>
-            <label className={radioLabelClassName}>
-              <input
-                type="radio"
-                name="userType"
-                value="part-time-wheelchair-user"
-                disabled={status === "loading"}
-                className="w-4 h-4 accent-primary"
-              />
-              <span>I use a wheelchair part-time</span>
-            </label>
-            <label className={radioLabelClassName}>
-              <input
-                type="radio"
-                name="userType"
-                value="caregiver-family"
-                disabled={status === "loading"}
-                className="w-4 h-4 accent-primary"
-              />
-              <span>I'm a caregiver/family member answering for someone</span>
-            </label>
-            <label className={radioLabelClassName}>
-              <input
-                type="radio"
-                name="userType"
-                value="other"
-                disabled={status === "loading"}
-                className="w-4 h-4 accent-primary"
-              />
-              <span>Other</span>
-            </label>
-          </div>
-          <input
-            name="userTypeOther"
-            type="text"
-            disabled={status === "loading"}
-            placeholder="If other, please describe"
-            className={cn(inputClassName, "mt-3")}
-          />
-        </div>
-
-        <div>
-          <label className={labelClassName}>Age range *</label>
-          <select
-            name="ageRange"
-            required
-            disabled={status === "loading"}
-            className={inputClassName}
-          >
-            <option value="">Select age range</option>
-            <option value="under-18">Under 18</option>
-            <option value="18-24">18-24</option>
-            <option value="25-34">25-34</option>
-            <option value="35-44">35-44</option>
-            <option value="45-54">45-54</option>
-            <option value="55-plus">55+</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Block C – Wheelchair and daily use */}
-      <div className="space-y-6">
-        <h3 className="text-lg font-mono uppercase text-foreground/90">Wheelchair Usage</h3>
-
-        <div>
-          <label className={labelClassName}>What type of wheelchair do you mainly use? *</label>
-          <div className={radioGroupClassName}>
-            <label className={radioLabelClassName}>
-              <input
-                type="radio"
-                name="wheelchairType"
-                value="manual"
-                required
-                disabled={status === "loading"}
-                className="w-4 h-4 accent-primary"
-              />
-              <span>Manual</span>
-            </label>
-            <label className={radioLabelClassName}>
-              <input
-                type="radio"
-                name="wheelchairType"
-                value="power"
-                disabled={status === "loading"}
-                className="w-4 h-4 accent-primary"
-              />
-              <span>Power / Electric</span>
-            </label>
-            <label className={radioLabelClassName}>
-              <input
-                type="radio"
-                name="wheelchairType"
-                value="both"
-                disabled={status === "loading"}
-                className="w-4 h-4 accent-primary"
-              />
-              <span>Both</span>
-            </label>
-          </div>
-        </div>
-
-        <div>
-          <label className={labelClassName}>Where do you use your wheelchair most? (select all that apply) *</label>
-          <div className="flex flex-col gap-2">
-            {USAGE_LOCATIONS.map((location) => (
-              <label
-                key={location.id}
-                className={cn(
-                  radioLabelClassName,
-                  selectedLocations.has(location.id) && "bg-primary/10 border-primary/60"
-                )}
-              >
+            {[
+              { value: "mobility-wheelchair", label: "Mobility / Wheelchair control" },
+              { value: "forearm-rehabilitation", label: "Forearm rehabilitation & diagnostics" },
+              { value: "industrial-fatigue", label: "Industrial / Logistics fatigue monitoring" },
+              { value: "robotics-exoskeleton", label: "Robotics / Exoskeleton control" },
+              { value: "research-clinical", label: "Research / Clinical trials" },
+              { value: "other", label: "Other" },
+            ].map(({ value, label }) => (
+              <label key={value} className={radioLabelClassName}>
                 <input
-                  type="checkbox"
-                  checked={selectedLocations.has(location.id)}
-                  onChange={() => toggleLocation(location.id)}
+                  type="radio"
+                  name="useCase"
+                  value={value}
+                  required
+                  disabled={status === "loading"}
+                  onChange={() => setUseCase(value as UseCase)}
+                  className="w-4 h-4 accent-primary"
+                />
+                <span>{label}</span>
+              </label>
+            ))}
+          </div>
+          {useCase === "other" && (
+            <input
+              name="useCaseOther"
+              type="text"
+              disabled={status === "loading"}
+              placeholder="Please describe your use case"
+              className={cn(inputClassName, "mt-3")}
+            />
+          )}
+        </div>
+
+        <div>
+          <label className={labelClassName}>Your role *</label>
+          <div className={radioGroupClassName}>
+            {[
+              { value: "end-user-patient", label: "End user / Patient" },
+              { value: "caregiver-family", label: "Caregiver or family member" },
+              { value: "clinician-therapist", label: "Clinician / Therapist" },
+              { value: "researcher-engineer", label: "Researcher / Engineer" },
+              { value: "company-operations", label: "Company / Operations leader" },
+              { value: "other", label: "Other" },
+            ].map(({ value, label }) => (
+              <label key={value} className={radioLabelClassName}>
+                <input
+                  type="radio"
+                  name="userRole"
+                  value={value}
+                  required
+                  disabled={status === "loading"}
+                  onChange={() => setUserRole(value as UserRole)}
+                  className="w-4 h-4 accent-primary"
+                />
+                <span>{label}</span>
+              </label>
+            ))}
+          </div>
+          {userRole === "other" && (
+            <input
+              name="userRoleOther"
+              type="text"
+              disabled={status === "loading"}
+              placeholder="Please describe your role"
+              className={cn(inputClassName, "mt-3")}
+            />
+          )}
+        </div>
+
+        <div>
+          <label htmlFor="problemStatement" className={labelClassName}>
+            What problem are you trying to solve? *
+          </label>
+          <textarea
+            id="problemStatement"
+            name="problemStatement"
+            required
+            rows={3}
+            disabled={status === "loading"}
+            placeholder="Describe in 1–2 sentences the challenge you're facing…"
+            className={cn(inputClassName, "resize-y min-h-[80px]")}
+          />
+        </div>
+      </div>
+
+      {/* Block C – Pilot readiness */}
+      <div className="space-y-6">
+        <h3 className="text-lg font-mono uppercase text-foreground/90">Pilot Availability</h3>
+
+        <div>
+          <label className={labelClassName}>When could you join a pilot? *</label>
+          <div className={radioGroupClassName}>
+            {[
+              { value: "ready-now", label: "Ready to join an early pilot now" },
+              { value: "next-3-6-months", label: "Interested in the next 3–6 months" },
+              { value: "need-more-info", label: "Interested, but need more info first" },
+              { value: "just-updates", label: "Just want product updates for now" },
+            ].map(({ value, label }) => (
+              <label key={value} className={radioLabelClassName}>
+                <input
+                  type="radio"
+                  name="pilotReadiness"
+                  value={value}
+                  required
                   disabled={status === "loading"}
                   className="w-4 h-4 accent-primary"
                 />
-                <span>{location.label}</span>
+                <span>{label}</span>
               </label>
             ))}
           </div>
         </div>
 
         <div>
-          <label className={labelClassName}>How many hours a day do you typically use your wheelchair? *</label>
-          <select
-            name="dailyHours"
-            required
-            disabled={status === "loading"}
-            className={inputClassName}
-          >
-            <option value="">Select daily hours</option>
-            <option value="less-than-2">Less than 2 hours</option>
-            <option value="2-4">2-4 hours</option>
-            <option value="4-8">4-8 hours</option>
-            <option value="more-than-8">More than 8 hours</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Block D – Interest and intent */}
-      <div className="space-y-6">
-        <h3 className="text-lg font-mono uppercase text-foreground/90">Interest & Availability</h3>
-
-        <div>
-          <label className={labelClassName}>How interested are you in trying an EMG-based way to control your wheelchair? *</label>
-          <div className={radioGroupClassName}>
-            <label className={radioLabelClassName}>
-              <input
-                type="radio"
-                name="interestLevel"
-                value="very-interested"
-                required
-                disabled={status === "loading"}
-                className="w-4 h-4 accent-primary"
-              />
-              <span>Very interested – I'd love to test</span>
-            </label>
-            <label className={radioLabelClassName}>
-              <input
-                type="radio"
-                name="interestLevel"
-                value="curious"
-                disabled={status === "loading"}
-                className="w-4 h-4 accent-primary"
-              />
-              <span>Curious – want to learn more first</span>
-            </label>
-            <label className={radioLabelClassName}>
-              <input
-                type="radio"
-                name="interestLevel"
-                value="not-sure"
-                disabled={status === "loading"}
-                className="w-4 h-4 accent-primary"
-              />
-              <span>Not sure – just exploring</span>
-            </label>
+          <label className={labelClassName}>
+            Where would pilot / testing happen? (select all that apply) *
+          </label>
+          <div className="flex flex-col gap-2">
+            {TESTING_LOCATIONS.map((loc) => (
+              <label
+                key={loc.id}
+                className={cn(
+                  radioLabelClassName,
+                  selectedLocations.has(loc.id) && "bg-primary/10 border-primary/60"
+                )}
+              >
+                <input
+                  type="checkbox"
+                  checked={selectedLocations.has(loc.id)}
+                  onChange={() => toggleLocation(loc.id)}
+                  disabled={status === "loading"}
+                  className="w-4 h-4 accent-primary"
+                />
+                <span>{loc.label}</span>
+              </label>
+            ))}
           </div>
         </div>
 
         <div>
-          <label className={labelClassName}>Would you be interested in trying our EMG armband device? *</label>
-          <div className={radioGroupClassName}>
-            <label className={radioLabelClassName}>
-              <input
-                type="radio"
-                name="openToInvasive"
-                value="yes-possibly"
-                required
-                disabled={status === "loading"}
-                className="w-4 h-4 accent-primary"
-              />
-              <span>Yes, definitely interested</span>
-            </label>
-            <label className={radioLabelClassName}>
-              <input
-                type="radio"
-                name="openToInvasive"
-                value="maybe-need-info"
-                disabled={status === "loading"}
-                className="w-4 h-4 accent-primary"
-              />
-              <span>Maybe, need more info</span>
-            </label>
-            <label className={radioLabelClassName}>
-              <input
-                type="radio"
-                name="openToInvasive"
-                value="no"
-                disabled={status === "loading"}
-                className="w-4 h-4 accent-primary"
-              />
-              <span>Not interested at this time</span>
-            </label>
-          </div>
-        </div>
-
-        <div>
-          <label className={labelClassName}>Would you be open to joining a pilot or study in the future? *</label>
-          <div className={radioGroupClassName}>
-            <label className={radioLabelClassName}>
-              <input
-                type="radio"
-                name="pilotAvailability"
-                value="yes-if-near"
-                required
-                disabled={status === "loading"}
-                className="w-4 h-4 accent-primary"
-              />
-              <span>Yes, if it's near me</span>
-            </label>
-            <label className={radioLabelClassName}>
-              <input
-                type="radio"
-                name="pilotAvailability"
-                value="maybe-depends"
-                disabled={status === "loading"}
-                className="w-4 h-4 accent-primary"
-              />
-              <span>Maybe, depends on timing and details</span>
-            </label>
-            <label className={radioLabelClassName}>
-              <input
-                type="radio"
-                name="pilotAvailability"
-                value="probably-not"
-                disabled={status === "loading"}
-                className="w-4 h-4 accent-primary"
-              />
-              <span>Probably not, I mostly want to follow progress</span>
-            </label>
-          </div>
-        </div>
-
-        <div>
-          <label htmlFor="impactDescription" className={labelClassName}>
-            If this technology worked perfectly for you, what would it change in your everyday life? *
+          <label htmlFor="outcomeDescription" className={labelClassName}>
+            What would success look like for you? *
           </label>
           <textarea
-            id="impactDescription"
-            name="impactDescription"
+            id="outcomeDescription"
+            name="outcomeDescription"
             required
-            rows={5}
+            rows={4}
             disabled={status === "loading"}
-            placeholder="Tell us what this would mean for you..."
-            className={cn(
-              inputClassName,
-              "resize-y min-h-[120px]"
-            )}
+            placeholder="Tell us what a meaningful outcome would be for you or your team…"
+            className={cn(inputClassName, "resize-y min-h-[100px]")}
           />
         </div>
       </div>
 
-      {/* Block E – Logistics and consent */}
-      <div className="space-y-6">
-        <h3 className="text-lg font-mono uppercase text-foreground/90">Final Details</h3>
-
-        <div>
-          <label htmlFor="timezone" className={labelClassName}>
-            Timezone (optional)
-          </label>
+      {/* Block D – Consent */}
+      <div className="space-y-3">
+        <label className="flex items-start gap-3 cursor-pointer">
           <input
-            id="timezone"
-            name="timezone"
-            type="text"
+            type="checkbox"
+            name="consentPilotContact"
+            required
             disabled={status === "loading"}
-            placeholder="e.g., PST, EST, GMT+1"
-            className={inputClassName}
+            className="w-4 h-4 mt-1 accent-primary"
           />
-        </div>
+          <span className="text-sm text-foreground/80">
+            <strong>*</strong> I understand this is an early-stage product not yet on the market, and that Kinesia Labs will contact me only about pilots, studies, or updates related to this project.
+          </span>
+        </label>
 
-        <div className="space-y-3">
-          <label className="flex items-start gap-3 cursor-pointer">
-            <input
-              type="checkbox"
-              name="emailIsPreferred"
-              disabled={status === "loading"}
-              className="w-4 h-4 mt-1 accent-primary"
-            />
-            <span className="text-sm text-foreground/80">
-              Email is the best way to reach me
-            </span>
-          </label>
-
-          <label className="flex items-start gap-3 cursor-pointer">
-            <input
-              type="checkbox"
-              name="consentPilotContact"
-              required
-              disabled={status === "loading"}
-              className="w-4 h-4 mt-1 accent-primary"
-            />
-            <span className="text-sm text-foreground/80">
-              <strong>*</strong> I understand this is an early-stage product not yet on the market, and that you'll contact me only about pilots, studies, or updates related to this project.
-            </span>
-          </label>
-
-          <label className="flex items-start gap-3 cursor-pointer">
-            <input
-              type="checkbox"
-              name="wantsUpdates"
-              disabled={status === "loading"}
-              className="w-4 h-4 mt-1 accent-primary"
-            />
-            <span className="text-sm text-foreground/80">
-              I'd like to receive occasional updates about Kinesia Labs' progress
-            </span>
-          </label>
-        </div>
+        <label className="flex items-start gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            name="wantsUpdates"
+            disabled={status === "loading"}
+            className="w-4 h-4 mt-1 accent-primary"
+          />
+          <span className="text-sm text-foreground/80">
+            I'd like to receive occasional updates about Kinesia Labs' progress
+          </span>
+        </label>
       </div>
 
       {status === "error" && errorMessage && (
         <div className="p-4 rounded bg-red-500/10 border border-red-500/30">
-          <p className="text-sm text-red-400" role="alert">
-            {errorMessage}
-          </p>
+          <p className="text-sm text-red-400" role="alert">{errorMessage}</p>
         </div>
       )}
 
       {status === "success" && (
         <div className="p-4 rounded bg-green-500/10 border border-green-500/30">
           <p className="text-sm text-green-400" role="status">
-            Thank you for signing up! We'll review your information and reach out when we're closer to pilots in your area.
+            Thank you for signing up. We'll review your information and reach out when we're closer to a pilot relevant to you.
           </p>
         </div>
       )}
@@ -573,9 +378,7 @@ export function PilotSignupForm() {
         {status === "loading" ? "Submitting…" : "Join the pilot list"}
       </Button>
 
-      <p className="text-xs text-foreground/50 -mt-4">
-        * Required fields
-      </p>
+      <p className="text-xs text-foreground/50 -mt-4">* Required fields</p>
     </form>
   );
 }
